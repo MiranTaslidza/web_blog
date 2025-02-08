@@ -1,0 +1,1 @@
+console.log('ovo je main js fajl');
