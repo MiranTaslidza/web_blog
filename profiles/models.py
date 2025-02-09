@@ -10,6 +10,8 @@ class Profile (models.Model):
     # polje avatar downloadovati ču sliku https://pixabay.com/ koja če da predstavi avatar profila 
     # dowloadovati avatar sliku i smjestiti je unutr media foldera u projektu
     profile_image = models.ImageField(default="avatar.png", upload_to="avatars/")   
+    # polje za datum i god rođenja
+    date_of_birth = models.DateField(null=True, blank=True)
     # polje za datum kada je profil izmenjen 
     updated = models.DateTimeField(auto_now=True)
     # polje za datum kada je profil kreiran

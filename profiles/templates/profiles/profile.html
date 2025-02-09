@@ -1,0 +1,74 @@
+{% extends 'base.html' %} <!-- uvoizim sadržaj base.html -->
+
+{% load static %} <!-- uvoizim static fajle -->
+
+<!-- blok za css fajlove -->
+{% block styles %}
+<link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+{% endblock styles %}
+
+{% block title %}{{ profile.user.username }} profile{% endblock title %} <!-- ovdje se menja title -->
+
+
+<!-- blok za JS static fajlova -->
+{% block scripts %}
+
+{% endblock scripts %}
+
+<!-- blok za sadržaj -->
+{% block content %}
+
+
+<div class="container d-flex justify-content-center align-items-center">
+
+    <div class="card">
+
+        <div class="upper">
+
+            <img src="https://i.imgur.com/Qtrsrk5.jpg" class="img-fluid">
+
+        </div>
+
+        <div class="user text-center">
+                <img src="{{ profile.profile_image.url }}" class="img_profile" >
+        </div>
+
+
+        <div class="text-center data">
+
+            <h1 class="mb-0 fw-bpld">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+            <span class="text-muted d-block mb-2 fw-bold">({{ profile.user.username }})</span>
+        </div>
+
+        <hr>
+
+        <div class="text-center bio">
+            <p>{{ profile.bio }}</p>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-4 px-4">
+
+            <div class="stats">
+                <h6 class="mb-0">Created</h6>
+                <span>{{ profile.created }}</span>
+
+            </div>
+
+
+            <div class="stats">
+                <h6 class="mb-0">Posts</h6>
+                <span>142</span>
+
+            </div>
+
+
+            <div class="stats">
+                <h6 class="mb-0">Birth</h6>
+                <span>{{ profile.date_of_birth }}</span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
