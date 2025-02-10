@@ -1,0 +1,9 @@
+.log_sec{
+    background-color: #11050b;
+}
+.card{
+    border-radius: 1rem;
+}
+.img-fluid{
+    border-radius: 1rem 0 0 1rem;
+}

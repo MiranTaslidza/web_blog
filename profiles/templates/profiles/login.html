@@ -1,0 +1,71 @@
+{% extends 'base.html' %} <!-- uvoizim sadržaj base.html -->
+
+{% load static %} <!-- uvoizim static fajle -->
+
+<!-- blok za css fajlove -->
+{% block styles %}
+<link rel="stylesheet" href="{% static 'profiles/css/login.css' %}">
+{% endblock styles %}
+
+{% block title %}Login{% endblock title %} <!-- ovdje se menja title -->
+
+
+<!-- blok za JS static fajlova -->
+{% block scripts %}
+
+{% endblock scripts %}
+
+<!-- blok za sadržaj -->
+{% block content %}
+<section class="vh-98 log_sec mt-5" >
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="card">
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-none d-md-block">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                  alt="login form" class="img-fluid" />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+  
+                  <form method="post">
+                    {% csrf_token %}
+  
+                    <div class="d-flex align-items-center ms-3 mb-3 pb-1">
+                      <span class="h1 fw-bold mb-0">Logo</span>
+                    </div>
+  
+                    <h5 class="fw-normal mb-3 pb-3">Sign into your account</h5>
+  
+                    <div data-mdb-input-init class="form-outline mb-4">
+                        <label for="username">Username or email</label>
+                        <input type="text" id="username" name="username" class="form-control form-control-lg" required>
+                    </div>
+  
+                    <div data-mdb-input-init class="form-outline mb-4">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control form-control-lg" required>
+                    </div>
+  
+                    <div class="pt-1 mb-4">
+                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                    </div>
+  
+
+                  </form>
+                  <a class="small text-muted" href="#!">Forgot password?</a>
+                  <p class="mb-5 pb-lg-2" >Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+                  <a href="#!" class="small text-muted">Terms of use.</a>
+                  <a href="#!" class="small text-muted">Privacy policy</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}

@@ -133,3 +133,21 @@ MEDIA_ROOT = BASE_DIR / 'media'  # Folder gde će se čuvati otpremljeni fajlovi
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# postavke za slanje maila
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'dr.restful.code@gmail.com'
+EMAIL_HOST_PASSWORD = 'suqjkkeuyfplhkgc'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Postavke za sesije
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 3600
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_SECURE = True  # HTTPS samo
+SESSION_COOKIE_HTTPONLY = True  # Sprečava JavaScript pristup
+CSRF_COOKIE_SECURE = True  # HTTPS samo za CSRF kolačiće
