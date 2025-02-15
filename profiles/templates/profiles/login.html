@@ -1,5 +1,4 @@
 {% extends 'base.html' %} <!-- uvoizim sadržaj base.html -->
-
 {% load static %} <!-- uvoizim static fajle -->
 
 <!-- blok za css fajlove -->
@@ -17,6 +16,9 @@
 
 <!-- blok za sadržaj -->
 {% block content %}
+{% if user.is_authenticated %}
+ <h1>You are already logged in</h1> 
+{% else %}
 <section class="vh-98 log_sec mt-5" >
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -67,5 +69,5 @@
       </div>
     </div>
   </section>
-
+{% endif %}
 {% endblock content %}

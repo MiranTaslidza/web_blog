@@ -1,22 +1,20 @@
-from email.message import EmailMessage
 from django.shortcuts import render, redirect
 from .models import Profile
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
-import uuid
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.models import User
-from django.utils.timezone import now
-from datetime import timedelta
 from django.core.mail import EmailMultiAlternatives
+from django.utils.encoding import force_bytes
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -24,6 +22,7 @@ from django.core.mail import EmailMultiAlternatives
 def wiew_profile(request, pk):
     profile = Profile.objects.get(pk=pk)
     return render(request, 'profiles/profile.html', {'profile': profile})
+
 
 #login
 def login_user(request):
@@ -148,4 +147,41 @@ def register_user(request):
 
     return render(request, 'profiles/register.html', {'form': form})
 
+@login_required
+def edit_profile(request, pk):
+    profile = Profile.objects.get(pk=pk)
 
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest': 
+        profile_image = request.FILES.get('profile_image')  # Uzimamo sliku ako je poslana
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        bio = request.POST.get('bio')
+        date_of_birth = request.POST.get('date_of_birth')
+
+        # Ažuriranje podataka
+        if profile_image:  # Ako je nova slika poslana, zamijeni staru
+            profile.profile_image = profile_image
+
+        profile.user.first_name = first_name
+        profile.user.last_name = last_name
+        profile.bio = bio
+
+        if  date_of_birth:	
+            profile.date_of_birth = date_of_birth
+
+
+        profile.save()
+        profile.user.save()
+
+        # Vraćamo ažurirane podatke u JSON odgovoru
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Profile updated successfully!',
+            'profile_image': profile.profile_image.url if profile.profile_image else None,
+            'first_name': profile.user.first_name,
+            'last_name': profile.user.last_name,
+            'bio': profile.bio,
+            'date_of_birth': profile.date_of_birth.strftime('%Y-%m-%d') if profile.date_of_birth else None  # Format datuma za frontend
+        })
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)

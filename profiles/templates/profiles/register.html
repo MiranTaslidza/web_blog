@@ -17,6 +17,9 @@
 
 <!-- blok za sadržaj -->
 {% block content %}
+{% if user.is_authenticated %}
+ <h1>You are already logged in</h1> 
+{% else %}
 <section class="reg_sec p-3 p-md-4 p-xl-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -90,5 +93,5 @@
         </div>
     </div>
 </section>
-
+{% endif %}
 {% endblock content %}
