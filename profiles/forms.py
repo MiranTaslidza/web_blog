@@ -36,7 +36,7 @@ class ProfileUpdateForm(forms.ModelForm):
     first_name = forms.CharField(max_length=150, required=True, label="First name", widget=forms.TextInput(attrs={'placeholder': 'First name', 'class': 'inp_style'}))
     last_name = forms.CharField(max_length=150, required=True, label="Last name", widget=forms.TextInput(attrs={'placeholder':'Last name', 'class': 'inp_style'}))
     bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'id': 'bio', 'rows': 4, 'placeholder': 'Enter your bio'}))
-    profile_image = forms.ImageField(widget=forms.ClearableFileInput(attrs={'class': 'form-control-file', 'id': 'profile-image'}))
+    profile_image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'profile_style'}))
     date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'class': 'size', 'type': 'date'}))
 
 

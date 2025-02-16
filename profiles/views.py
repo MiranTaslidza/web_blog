@@ -162,3 +162,15 @@ def update_profile(request):
     
     profile = request.user.profile  # Uzimaš profil korisnika
     return render(request, "profiles/update_profile.html", {"form": form, "profile": profile})
+
+from django.http import JsonResponse
+
+@login_required
+def delete_account(request):
+    if request.method == "POST":
+        user = request.user
+        user.delete()
+        return JsonResponse({"message": "Account deleted"}, status=200)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+

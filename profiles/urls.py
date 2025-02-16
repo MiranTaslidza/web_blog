@@ -8,5 +8,6 @@ urlpatterns = [
     path('register/', views.register_user, name='register'),
     path('verify/<uidb64>/<token>/', views.verify_user, name='verify'),  # url za verifikaciju
     path("update/", views.update_profile, name="update_profile"),
+    path("delete/", views.delete_account, name="delete_account"),
 
 ]

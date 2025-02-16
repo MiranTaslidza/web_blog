@@ -12,7 +12,7 @@
 
 <!-- blok za JS static fajlova -->
 {% block scripts %}
-
+<script src="{% static 'profiles/js/deleteProfile.js' %}"></script>
 {% endblock scripts %}
 
 <!-- blok za sadržaj -->
@@ -30,11 +30,13 @@
             <div class="upper">
 
                 <img src="https://i.imgur.com/Qtrsrk5.jpg" class="img-fluid">
+                
 
             </div>
 
             <div class=" form-grup user text-center">
-                <img src="{{ profile.profile_image.url }}" class="img_profile">
+                <img src="{{ profile.profile_image.url }}" class="img_profile"><br>
+                {{ form.profile_image }}
             </div>
 
 
@@ -54,11 +56,19 @@
                 {{ form.date_of_birth }}
             </div>
 
-            <button type="submit" class="btn btn-primary mt-4">Save</button>
+            <div class="d-flex pt-1 mt-3">
+                <button type="submit"  class="btn btn-outline-primary me-1 flex-grow-1">Save</button>
+            
+                <!-- brisanje akaunta -->
+                <button type="button" class="btn btn-outline-danger flex-grow-1" id="delete-button">Delete</button>
+            </div>
+            
         </div>
     </div>
     </div>
 </form>
+
+
 
 {% endblock content %}
 
