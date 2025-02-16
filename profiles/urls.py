@@ -7,5 +7,6 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_user, name='register'),
     path('verify/<uidb64>/<token>/', views.verify_user, name='verify'),  # url za verifikaciju
-    path('edit/<int:pk>/', views.edit_profile, name='edit'),
+    path("update/", views.update_profile, name="update_profile"),
+
 ]

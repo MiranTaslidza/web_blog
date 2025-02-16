@@ -3,7 +3,7 @@ from .models import Profile
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, ProfileUpdateForm
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -147,41 +147,18 @@ def register_user(request):
 
     return render(request, 'profiles/register.html', {'form': form})
 
+# Update podataka
 @login_required
-def edit_profile(request, pk):
-    profile = Profile.objects.get(pk=pk)
+def update_profile(request):
 
-    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest': 
-        profile_image = request.FILES.get('profile_image')  # Uzimamo sliku ako je poslana
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        bio = request.POST.get('bio')
-        date_of_birth = request.POST.get('date_of_birth')
-
-        # Ažuriranje podataka
-        if profile_image:  # Ako je nova slika poslana, zamijeni staru
-            profile.profile_image = profile_image
-
-        profile.user.first_name = first_name
-        profile.user.last_name = last_name
-        profile.bio = bio
-
-        if  date_of_birth:	
-            profile.date_of_birth = date_of_birth
-
-
-        profile.save()
-        profile.user.save()
-
-        # Vraćamo ažurirane podatke u JSON odgovoru
-        return JsonResponse({
-            'status': 'success',
-            'message': 'Profile updated successfully!',
-            'profile_image': profile.profile_image.url if profile.profile_image else None,
-            'first_name': profile.user.first_name,
-            'last_name': profile.user.last_name,
-            'bio': profile.bio,
-            'date_of_birth': profile.date_of_birth.strftime('%Y-%m-%d') if profile.date_of_birth else None  # Format datuma za frontend
-        })
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated!')
+    else:
+        form = ProfileUpdateForm(instance=request.user.profile, user=request.user)
+    
+    
+    profile = request.user.profile  # Uzimaš profil korisnika
+    return render(request, "profiles/update_profile.html", {"form": form, "profile": profile})

@@ -5,7 +5,6 @@
 <!-- blok za css fajlove -->
 {% block styles %}
 <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
-<link rel="stylesheet" href="{% static 'profiles/css/form.css' %}">
 {% endblock styles %}
 
 {% block title %}{{ profile.user.username }} profile{% endblock title %} <!-- ovdje se menja title -->
@@ -13,52 +12,12 @@
 
 <!-- blok za JS static fajlova -->
 {% block scripts %}
- <script src="{% static 'profiles/js/editProfile.js' %}"></script>
+ <script src="{% static 'profiles/js/deleteProfile.js' %}"></script>
 {% endblock scripts %}
 
 <!-- blok za sadržaj -->
 {% block content %}
 
-{% if profile.user == request.user %}
-<!-- podatci koji če se prikazivati u edit profile iz JS fajla,  to jeste korisniku  čiji je profil -->
-<div id="edit_profile" data-pk="{{ user.pk }}">
-
-    <div class="container d-flex justify-content-center align-items-center">
-        <div class="card">
-            <div class="upper">
-                <img src="https://i.imgur.com/Qtrsrk5.jpg" class="img-fluid">
-            </div>
-            <div class="user text-center">
-                <img src="{{ profile.profile_image.url }}" class="img_profile">
-            </div>
-            <form id="edit-profile-form">
-                {% csrf_token %}
-                <div class="form-group ">
-                    <input type="file" name="profile_image"  class="add_img">
-                </div>
-                <div class="form-group mt-3">
-                    <input type="text" class="fname_lname mar_left" name="first_name" value="{{ profile.user.first_name }}">
-                    <input type="text" class="fname_lname" name="last_name" value="{{ profile.user.last_name }}">
-                    <hr class="hr_line">
-                </div>
-
-                <div class="form-group mt-5">
-                    <label for="bio">Bio</label>
-                    <textarea class="form-control" name="bio">{{ profile.bio }}</textarea>
-                </div>
-
-                <div class="form-group mt-3">
-                    <label for="date_of_birth">Date of Birth</label>
-                    <input type="date" class="form-control" name="date_of_birth" value="{{ profile.date_of_birth|date:'Y-m-d' }}">
-                </div>
-                
-                <button type="submit" class="btn btn-primary mt-4" id="save-profile-btn">Save</button>
-            </form>
-        </div>
-    </div>
-    
-</div>
-{%else%}
 <!-- podatci koji če se prikazivati drugim korisnicima  -->
 <div class="container d-flex justify-content-center align-items-center">
 
@@ -111,6 +70,6 @@
         </div>
     </div>
 </div>
-{% endif %}
+
 
 {% endblock content %}
