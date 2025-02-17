@@ -151,3 +151,14 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_SECURE = True  # HTTPS samo
 SESSION_COOKIE_HTTPONLY = True  # Sprečava JavaScript pristup
 CSRF_COOKIE_SECURE = True  # HTTPS samo za CSRF kolačiće
+
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,  # Minimalna dužina lozinke
+        }
+    },
+    # Ovdje ne stavljaj nikakve dodatne restrikcije kao što je 'NameAndNumberPasswordValidator'
+]

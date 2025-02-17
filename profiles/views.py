@@ -14,6 +14,9 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils.encoding import force_bytes
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.urls import reverse
 
 
 
@@ -172,5 +175,32 @@ def delete_account(request):
         user.delete()
         return JsonResponse({"message": "Account deleted"}, status=200)
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+# promjena passworda i slanje obavjesti korissniku na mail
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()  # Promeni lozinku korisnika
+            update_session_auth_hash(request, user)  # Održava aktivnu sesiju nakon promene lozinke
+            
+            # Slanje email obaveštenja
+            subject = "Password Changed Successfully"
+            message = render_to_string('profiles/password_change_email.html', {
+                'user': user,
+                'login_url': request.build_absolute_uri(reverse('login')),  # Link za prijavu
+            })
+            send_email_notification(subject, message, [user.email])
+            
+            messages.success(request, "Your password has been successfully updated!")
+            return redirect('home')
+        else:
+            messages.error(request, "There was an error changing your password. Please try again.")
+    else:
+        form = PasswordChangeForm(user=request.user)
+    
+    return render(request, 'profiles/change_password.html', {'form': form})
+
 
 

@@ -9,5 +9,5 @@ urlpatterns = [
     path('verify/<uidb64>/<token>/', views.verify_user, name='verify'),  # url za verifikaciju
     path("update/", views.update_profile, name="update_profile"),
     path("delete/", views.delete_account, name="delete_account"),
-
+    path('user/change_password/', views.change_password, name='change_password'),
 ]
