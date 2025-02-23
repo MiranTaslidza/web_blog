@@ -1,0 +1,11 @@
+Hello {{ user.username }},
+
+You requested to change your email. Please confirm this request by clicking the link below:
+
+<a href="{{ confirm_url }}">Confirm</a>
+
+If you did not make this request, you can cancel the email change by clicking the link below:
+<a href="{{ cancel_url }}">{{ cancel_url }}</a>
+
+Best regards,  
+Your Website Team

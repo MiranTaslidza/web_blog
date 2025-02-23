@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Potvrda promjene e-pošte</title>
+</head>
+<body>
+    <p>Pozdrav {{ user.username }},</p>
+    <p>Zatražili ste promjenu e-pošte. Molimo kliknite na sljedeći link za potvrdu:</p>
+    <p><a href="{{ new_confirm_url }}">Potvrdi</a></p>
+    <p>Ako niste podnijeli ovaj zahtjev, možete ga poništiti klikom na sljedeći link:</p>
+    <p><a href="{{ cancel_url }}">Poništi</a></p>
+    <p>Srdačan pozdrav, <br>Vaš tim</p>
+</body>
+</html>

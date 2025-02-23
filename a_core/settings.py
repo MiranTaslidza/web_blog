@@ -146,7 +146,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Postavke za sesije
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_COOKIE_AGE = 3600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_SECURE = True  # HTTPS samo
 SESSION_COOKIE_HTTPONLY = True  # Sprečava JavaScript pristup
@@ -162,3 +161,4 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     # Ovdje ne stavljaj nikakve dodatne restrikcije kao što je 'NameAndNumberPasswordValidator'
 ]
+

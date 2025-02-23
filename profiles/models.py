@@ -13,6 +13,14 @@ class Profile (models.Model):
     profile_image = models.ImageField(default="avatar.png", upload_to="avatars/")   
     # polje za datum i god rođenja
     date_of_birth = models.DateField(null=True, blank=True)
+
+    # Čuva prethodni email korisnika
+    old_email = models.EmailField(blank=True, null=True)  
+    # Privremeno čuva novi email dok ga korisnik ne potvrdi
+    new_email = models.EmailField(blank=True, null=True) 
+    # Provera da li je novi email potvrđen 
+    email_confirmed = models.BooleanField(default=False)  
+
     # polje za datum kada je profil izmenjen 
     updated = models.DateTimeField(auto_now=True)
     # polje za datum kada je profil kreiran

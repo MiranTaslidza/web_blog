@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm #uvozim formu za registraciju
 from django.contrib.auth.models import User #uvozim model User koji je kreiran po defaultu
 from .models import Profile #uvozim model Profile koji sam kreirao
+from django.core.exceptions import ValidationError #
 
 
 class UserRegisterForm(UserCreationForm):
@@ -62,3 +63,22 @@ class ProfileUpdateForm(forms.ModelForm):
             user.save()  # Snimamo User model
             profile.save()  # Snimamo Profile model
         return profile
+    
+#  prmjena maila
+class ChangeEmailForm(forms.Form):
+    new_email = forms.EmailField(
+        label="New Email",
+        widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": "Enter new email"}),
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        """Prosljeđujemo korisnika da bismo mogli provjeriti emailove."""
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean_new_email(self):
+        """Provjera da li novi email već postoji u sistemu."""
+        new_email = self.cleaned_data["new_email"]
+        if User.objects.filter(email=new_email).exists():
+            raise ValidationError("This email is already in use. Please choose another.")
+        return new_email
