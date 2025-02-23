@@ -18,7 +18,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.urls import reverse
 from django.core.signing import Signer, BadSignature, TimestampSigner
-from django.conf import settings
+
 
 
 
@@ -366,3 +366,4 @@ def confirm_new_email(request, token):
     except BadSignature:
         messages.error(request, "Nevažeći ili istekli token.")
         return redirect('profile', pk=request.user.pk)
+
