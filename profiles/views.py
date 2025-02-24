@@ -128,6 +128,7 @@ def register_user(request):
             user.set_password(form.cleaned_data.get('password1'))
             user.is_active = False  # Korisnik je neaktivan dok ne potvrdi e-mail
             user.save()
+            
 
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
@@ -244,7 +245,15 @@ def change_email(request):
                 'cancel_url': cancel_url,
             })
 
-            send_mail(mail_subject, message, 'noreply@mywebsite.com', [profile.user.email])
+            #send_mail(mail_subject, message, 'noreply@mywebsite.com', [profile.user.email])
+
+            send_mail(
+                mail_subject,
+                '',  # Ostavlja se prazno plain text, ili možeš dodati kratku poruku
+                'noreply@mywebsite.com',
+                [profile.user.email],
+                html_message=message
+            )
 
             messages.success(request, "We have sent a verification link to your old email address.")
             return redirect('profile', pk=request.user.pk)  # Možete redirektovati na neki drugi URL po potrebi
@@ -292,7 +301,13 @@ def confirm_old_email(request, token):
 
         # Pošalji email
         mail_subject = 'Potvrdi promjenu e-pošte'
-        send_mail(mail_subject, message, 'noreply@mywebsite.com', [user.profile.new_email])
+        send_mail(
+            mail_subject,
+            '',  # Ostavlja se prazno plain text, ili možeš dodati kratku poruku
+            'noreply@mywebsite.com',
+            [user.profile.new_email],
+            html_message=message
+        )
         
         messages.success(request, "Verifikacijski link je poslan na tvoj novi email.")
         return redirect('profile', pk=request.user.pk)
@@ -366,4 +381,5 @@ def confirm_new_email(request, token):
     except BadSignature:
         messages.error(request, "Nevažeći ili istekli token.")
         return redirect('profile', pk=request.user.pk)
+
 

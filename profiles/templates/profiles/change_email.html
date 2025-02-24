@@ -17,9 +17,25 @@
 
 <!-- blok za sadržaj -->
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}  <!-- Prikazuje formu -->
-    <button type="submit">Submit</button>
-</form>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Change Email</h4>
+          </div>
+          <div class="card-body">
+            <img class="mx-auto d-block" src="{% static 'img/email.jpg' %}" alt="Email Image" height="300px">
+
+            <h6 class="m-3">Enter your new email address and follow the instructions we'll send you.</h6>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="btn btn-primary w-100">Send Verification Email</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}

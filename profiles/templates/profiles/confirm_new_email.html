@@ -1,15 +1,77 @@
 <!DOCTYPE html>
-<html lang="hr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Potvrda promjene e-pošte</title>
+  <meta charset="UTF-8">
+  <title>Confirm Your Email Change</title>
+  <style type="text/css">
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f6f6;
+      margin: 0;
+      padding: 0;
+      color: #333333;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+    }
+    .header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #dddddd;
+    }
+    .content {
+      font-size: 16px;
+      line-height: 1.5;
+      padding: 20px 0;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 10px 0;
+      background-color: #007bff;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .button.cancel {
+      background-color: #dc3545;
+    }
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: #777777;
+      border-top: 1px solid #dddddd;
+      padding-top: 15px;
+    }
+  </style>
 </head>
 <body>
-    <p>Pozdrav {{ user.username }},</p>
-    <p>Zatražili ste promjenu e-pošte. Molimo kliknite na sljedeći link za potvrdu:</p>
-    <p><a href="{{ new_confirm_url }}">Potvrdi</a></p>
-    <p>Ako niste podnijeli ovaj zahtjev, možete ga poništiti klikom na sljedeći link:</p>
-    <p><a href="{{ cancel_url }}">Poništi</a></p>
-    <p>Srdačan pozdrav, <br>Vaš tim</p>
+  <div class="email-container">
+    <div class="header">
+      <h2>Email Change Request</h2>
+    </div>
+    <div class="content">
+        <img src="https://cdn.pixabay.com/photo/2018/03/22/02/37/email-3249062_1280.png" alt="Email" width="100%">
+
+      <p>Hello {{ user.username }},</p>
+      <p>You requested to change your email. Please confirm this request by clicking the button below:</p>
+      <p style="text-align: center;">
+        <a href="{{ new_confirm_url }}" class="button">Confirm</a>
+      </p>
+      <p>If you did not make this request, you can cancel the email change by clicking the button below:</p>
+      <p style="text-align: center;">
+        <a href="{{ cancel_url }}" class="button cancel">Cancel</a>
+      </p>
+    </div>
+    <div class="footer">
+      <p>Best regards,<br>Your Website Team</p>
+    </div>
+  </div>
 </body>
 </html>
