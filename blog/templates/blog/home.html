@@ -1,17 +1,80 @@
 {% extends 'base.html' %} <!-- uvoizim sadržaj base.html -->
 
-{% block title %}Home{% endblock title %}   <!-- ovdje se menja title -->
+{% block title %}Home{% endblock title %} <!-- ovdje se menja title -->
 
 {% load static %} <!-- uvoizim static fajle -->
 
+{%block css%}
+
+<link rel="stylesheet" href="{% static 'css/card_blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/slider.css' %}">
+
+{%endblock css%}
+
 <!-- blok za JS static fajlova -->
 {% block scripts %}
-    <script src="{% static 'js/home.js' %}"></script>
+<script src="{% static 'js/slider.js' %}"></script>
 {% endblock scripts %}
 
 <!-- blok za sadržaj -->
 {% block content %}
 
-    <h1>Home</h1>
+{% for blog in blogs %}
+<div class="container">
+  <div class="left">
+      <div class="row img_box">
+        {% if blog.images.all %}
+          <div id="slider">
+            <a href="#" class="control_next">></a>
+            <a href="#" class="control_prev"><</a>
+            <ul>
+              {% for image in blog.images.all %}
+                <li><img src="{{ image.image.url }}" alt="Slika za blog {{ blog.title }}"></li>
+              {% endfor %}
+            </ul>  
+          </div>
+        {% else %}
+        <
+
+        {% endif %}
+      </div>
+      <div class="row">
+        <div class="left_left">
+            <h5>12</h5>
+            <h6>JANUARY</h6>
+        </div>
+        <div class="left_right">
+            <table>
+              <tr>
+                <td><i class="fa fa-eye fa-2x"></i></td>
+                <td><i class="fa fa-heart-o fa-2x"></i></td>
+                <td><i class="fa fa-envelope-o fa-2x"></i></td>
+                <td><i class="fa fa-share-alt fa-2x"></i></td>
+              </tr>
+              <tr>
+                <td>20</td>
+                <td>20</td>
+                <td>20</td>
+                <td>20</td>
+              </tr>
+            </table>
+        </div>
+      </div>
+  </div>
+
+  <div class="right">
+      <div class="box box1">
+        <h1>{{ blog.title }}</h1>
+        <div class="author">
+          <img src="{{ blog.author.profile.profile_image.url }}" alt="Profilna slika">
+          <h2 class="author_name">{{ blog.author.first_name }} {{ blog.author.last_name }}</h2>
+        </div> 
+      </div>
+      <div class="box box2">{{ blog.content|truncatewords:130 }}</div>
+      <div class="fab"><i class="fa fa-arrow-down fa-3x"></i></div>
+  </div>
+</div>
+{% endfor %}
+
 
 {% endblock content %}
