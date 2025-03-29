@@ -11,7 +11,7 @@ html, body {
   font-family: 'Open Sans';
 }
 
-h1 {
+#slider h1 {
   color: #fff;
   text-align: center;
   font-weight: 300;
