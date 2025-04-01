@@ -5,9 +5,8 @@
 {% load static %} <!-- uvoizim static fajle -->
 
 {%block css%}
-
-<link rel="stylesheet" href="{% static 'css/card_blog.css' %}">
-
+  <link rel="stylesheet" href="{% static 'css/card_blog.css' %}">
+  <link rel="stylesheet" href="{% static 'css/drop_zone.css' %}">
 
 {%endblock css%}
 
@@ -25,7 +24,6 @@
   Add post
 </button>
 
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -34,22 +32,34 @@
         <button type="button" class="btn-close add-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+
         <form action="" id="post-form">
               {% csrf_token %}
               {{ form.as_p }}
-              
+
+            <!-- forma za unos slika dropzone -->
+            <div class="dropzone" data-url="/new_post/">
+              <div class="dz-message">
+                <!-- mjeesto teksta može se prikazati i slika po defaultu zajedno sa tekstom -->
+                <h2>Povucite slike ovdje ili kliknite za upload</h2>
+              </div>
+              <div class="dz-preview dz-image-preview">
+                <div class="dz-details">
+                  <div class="dz-size"><span data-dz-size></span></div>
+                  <div class="dz-filename"><span data-dz-name></span></div>
+                </div>
+                <div class="dz-image">
+                  <img data-dz-thumbnail />
+                </div>
+              </div>
+            </div>
+
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary add-modal-close" data-bs-dismiss="modal">Close</button>
                   <button type="submit" id="add-btn" class="btn btn-primary">Save changes</button>
               </div>
         </form>
-        <!-- forma za unos slika -->
-        <form action="upload/" id="my-dropzone" class="dropzone dz  not_visible">
-          {% csrf_token %}  
-          <div class="fallback">
-            <input name="file" type="file" multiple />
-          </div>
-        </form>
+
       </div>
     </div>
   </div>
