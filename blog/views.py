@@ -1,9 +1,10 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import Blog, Image
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm
 from profiles.models import Profile
+from django.contrib import messages
 
 
 # prikaz svih postova
@@ -42,4 +43,11 @@ def new_post(request):
     return render(request, 'blog/home.html', context)
 
 
+# brisanje posta
+@login_required
+def delete_post(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    blog.delete()
+    messages.success(request, 'Post deleted successfully.')  # Poruka pre preusmeravanja
+    return redirect('home')
 

@@ -52,11 +52,20 @@ $(document).ready(function() {
     dictCancelUploadConfirmation: "Da li ste sigurni da želite otkažete upload?",
     dictRemoveFile: "Ukloni sliku",
     dictMaxFilesExceeded: "Prešli ste maksimalni broj upload-a.",
+    addRemoveLinks: true, // Omogući uklanjanje slika
     init: function() {
       this.on("sending", function(file, xhr, formData) {
         formData.append("csrfmiddlewaretoken", $('input[name="csrfmiddlewaretoken"]').val());
         console.log("Sending file:", file);
       });
+
+      // Event kada korisnik ukloni sliku
+      this.on("removedfile", function(file) {
+        console.log("Datoteka uklonjena:", file.name);
+        // Ako imaš logiku da trebaš ukloniti i iz niza slika koje ćeš poslati, ovdje je pravo mjesto
+        // Ako je slika već upload-ana, možeš poslati AJAX zahtjev za brisanje sa servera
+      });
     }
+    
   });
 });
