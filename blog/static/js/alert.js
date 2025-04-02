@@ -26,6 +26,3 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Dugme sa ID 'delete' ne postoji!");
     }
 });
-
-
-

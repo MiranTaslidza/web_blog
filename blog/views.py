@@ -51,3 +51,38 @@ def delete_post(request, pk):
     messages.success(request, 'Post deleted successfully.')  # Poruka pre preusmeravanja
     return redirect('home')
 
+# edit post
+@login_required
+def edit_post(request, pk):
+    # Uzimamo post koji se edituje, a samo autor posta ima pravo da ga edituje.
+    blog = get_object_or_404(Blog, pk=pk, author=request.user)
+    
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=blog)
+        if form.is_valid():
+            blog = form.save(commit=False)
+            blog.save()  # Čuvamo izmenjene naslov i sadržaj
+
+            # Brisanje slika – očekujemo da HTML šalje listu ID-jeva slika za brisanje
+            delete_image_ids = request.POST.getlist('delete_images')
+            if delete_image_ids:
+                Image.objects.filter(id__in=delete_image_ids, blog=blog).delete()
+
+            # Dodavanje novih slika – očekujemo input tipa "file" sa atributom "multiple" i nazivom 'new_images'
+            new_images = request.FILES.getlist('new_images')
+            if new_images:
+                for image in new_images:
+                    Image.objects.create(blog=blog, image=image)
+            
+            messages.success(request, "Post updated successfully!")
+            return redirect('blog_detail', pk=blog.pk)
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = PostForm(instance=blog)
+    
+    context = {
+        'form': form,
+        'blog': blog,  # Prosljeđujemo post i slike da možemo prikazati postojeće slike u šablonu
+    }
+    return render(request, 'blog/edit_post.html', context)
