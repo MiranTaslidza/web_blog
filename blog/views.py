@@ -86,3 +86,21 @@ def edit_post(request, pk):
         'blog': blog,  # Prosljeđujemo post i slike da možemo prikazati postojeće slike u šablonu
     }
     return render(request, 'blog/edit_post.html', context)
+<<<<<<< HEAD
+=======
+
+
+
+import os
+from django.core.files.base import ContentFile
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import default_storage
+@csrf_exempt
+def upload_image(request):
+    if request.method == 'POST':
+        file = request.FILES['file']
+        file_path = default_storage.save('uploads/' + file.name, ContentFile(file.read()))
+        file_url = default_storage.url(file_path)
+        return JsonResponse({'location': file_url})
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+>>>>>>> 0dea486 (tinnymce uređivač teksta)

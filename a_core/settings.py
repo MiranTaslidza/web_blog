@@ -37,10 +37,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
+=======
+    'tinymce',
+>>>>>>> 0dea486 (tinnymce uređivač teksta)
     'blog',
     'profiles',
 ]
 
+<<<<<<< HEAD
+=======
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "image,link,code",
+    'toolbar': "undo redo | bold italic | alignleft aligncenter alignright | image | code",
+    'automatic_uploads': True,
+    'images_upload_url': '/upload/',  # URL vašeg Django endpointa koji obrađuje upload
+}
+
+
+
+>>>>>>> 0dea486 (tinnymce uređivač teksta)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

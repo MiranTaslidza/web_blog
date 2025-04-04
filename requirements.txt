@@ -1,5 +1,10 @@
 asgiref==3.8.1
 Django==5.1.6
+<<<<<<< HEAD
+=======
+django-tinymce==4.1.0
+jsmin==3.0.1
+>>>>>>> 0dea486 (tinnymce uređivač teksta)
 pillow==11.1.0
 sqlparse==0.5.3
 tzdata==2025.1

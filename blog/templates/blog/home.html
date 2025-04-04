@@ -114,7 +114,11 @@
         </div> 
         </a>
       </div>
+<<<<<<< HEAD
       <div class="box box2">{{ blog.content|truncatewords:100 }}</div>
+=======
+      <div class="box box2">{{ blog.content|truncatewords:80|safe }}</div>
+>>>>>>> 0dea486 (tinnymce uređivač teksta)
 
       <a href="{% url 'blog_detail' blog.pk %}"><div class="fab"><i class="fa fa-arrow-down fa-3x"></i></div></a>
   </div>
