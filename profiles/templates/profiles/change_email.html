@@ -1,0 +1,41 @@
+{% extends 'base.html' %} <!-- uvoizim sadržaj base.html -->
+
+{% load static %} <!-- uvoizim static fajle -->
+
+<!-- blok za css fajlove -->
+{% block styles %}
+
+{% endblock styles %}
+
+{% block title %}Change Email{% endblock title %} <!-- ovdje se menja title -->
+
+
+<!-- blok za JS static fajlova -->
+{% block scripts %}
+
+{% endblock scripts %}
+
+<!-- blok za sadržaj -->
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Change Email</h4>
+          </div>
+          <div class="card-body">
+            <img class="mx-auto d-block" src="{% static 'img/email.jpg' %}" alt="Email Image" height="300px">
+
+            <h6 class="m-3">Enter your new email address and follow the instructions we'll send you.</h6>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="btn btn-primary w-100">Send Verification Email</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

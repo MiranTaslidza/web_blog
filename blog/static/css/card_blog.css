@@ -1,0 +1,270 @@
+.container {
+  display: flex;
+  width: 60%;
+  height:550px;
+  margin: 150px auto;
+  border: 1px solid black;
+  justify-content: center; 
+  padding: 0px;
+  -webkit-box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+  
+}
+
+.left {
+   display: flex;
+   flex-direction: column;
+   width: 60%;
+
+}
+
+.right {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+
+.img_box{
+  position: relative;
+  height: 350px;
+  margin: 0px;
+  padding: 0px;
+  width: 90%;
+  top: -80px;
+
+
+}
+
+.img_box img{
+
+  height: 350px;
+  object-fit: cover;
+  margin: 0px;
+  padding: 0px;
+}
+
+.left_right {
+   display: flex;
+   flex-direction: column;
+   width: 55%;
+   float: right;
+}
+
+.left_left {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+}
+.left_left h5{
+  font-size: 6rem;
+  color: #C3C3C3;
+  margin:0;
+}
+.left_left h6{
+  font-size: 2rem;
+  color: #C3C3C3;
+  margin:0;
+}
+
+.left_right table {
+  margin-top: 50px;
+  width: 350px;
+  text-align: center;
+}
+
+.left_right td {
+  list-style: none;
+  padding-right: 40px;
+  color: #7B7B7B;
+}
+
+
+.box{
+  
+  margin-left: 10PX;
+  width: 380px;
+}
+
+.box1{
+  text-align: center;
+  float: top;
+  margin: 10px;
+}
+
+.box2{
+  height: 400px;
+  padding: 5px;
+  text-align: justify;
+  
+}
+
+.box1 h1{
+  color : #4B4B4B; 
+}
+
+
+.author {
+  background-color: #9ecaff;
+  height: 30px;
+  width: 210px;
+  border-radius: 20px;
+  margin-left: 20px;
+  padding-top: 5px;
+}
+
+.author img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  float: left;
+  margin: -10px ;
+}
+
+.author_name {
+  font-size: 1rem;
+  color: white;
+}
+
+.fab {
+  position: relative;
+  right: -300px;
+  box-sizing: border-box;
+  padding-top: 10px;
+  background-color: #1875D0;
+  width: 80px;
+  height: 80px;
+  color: white;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+}
+
+/* Ekrani širine 1200px i manje */
+@media (max-width: 1200px) {
+  .container {
+    width: 80%;
+    margin: 100px auto;
+  }
+  .left, .right {
+    width: 100%;
+  }
+  .left_right, .left_left {
+    width: 100%;
+    float: none;
+  }
+  .img_box {
+    width: 100%;
+    top: 0;
+  }
+}
+
+/* Ekrani širine 992px i manje */
+@media (max-width: 992px) {
+  .container {
+    width: 90%;
+    margin: 80px auto;
+  }
+  .left_left h5 {
+    font-size: 4rem;
+  }
+  .left_left h6 {
+    font-size: 1.5rem;
+  }
+  .left_right table {
+    width: 100%;
+  }
+}
+
+/* Ekrani širine 768px i manje */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    margin: 50px auto;
+  }
+  .img_box {
+    height: auto;
+  }
+  .img_box img {
+    width: 100%;
+    height: auto;
+  }
+  .fab {
+    right: 0;
+    margin-top: 20px;
+  }
+}
+
+/* Ekrani širine 576px i manje */
+@media (max-width: 576px) {
+  .left_left h5 {
+    font-size: 3rem;
+  }
+  .left_left h6 {
+    font-size: 1.2rem;
+  }
+  .author {
+    width: 100%;
+    text-align: center;
+  }
+  .author img {
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 1889px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    height: auto;
+    margin: 50px auto;
+  }
+  .left, .right {
+    width: 100%;
+  }
+  .img_box {
+    width: 100%;
+    top: 0;
+  }
+  .img_box img {
+    width: 100%;
+    height: auto;
+  }
+  .left_left, .left_right {
+    width: 100%;
+    float: none;
+  }
+  .left_left h5 {
+    font-size: 4rem;
+    text-align: center;
+  }
+  .left_left h6 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .left_right table {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .left_right td {
+    padding-right: 20px;
+  }
+  .box {
+    width: 100%;
+    margin-left: 0;
+  }
+  .fab {
+    right: 0;
+    margin-top: 20px;
+  }
+}

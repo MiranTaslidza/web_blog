@@ -1,0 +1,20 @@
+.form-outline input{
+    border: none !important; /* Uklanja sve ivice oko input polja */ 
+    border-bottom: 2px solid #282828d5 !important; /* Dodaje samo donju crtu */
+    outline: none !important; /* Uklanja outline prilikom selektovanja */
+    background: none; /* Uklanja pozadinsku boju */
+    padding: 5px 0; /* Daje padding samo sa strane */
+    font-size: 16px; /* Opcionalno, prilagoditi veličinu fonta */
+    box-shadow: 0px 3px 0px   rgba(229, 250, 136, 0.362);
+    font-size: 150%;
+    margin-left: 5%;
+
+}
+
+.form-outline label{
+    font-weight: bold;
+}
+
+.color{
+    background-color: #c1c0c1;
+}
