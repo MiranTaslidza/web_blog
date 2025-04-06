@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Add blog{% endblock title %}
+
+{% load static %}
+
+{% block css %}
+  <style src="{% static 'css/drop_zone.css' %}"></style>
+{% endblock css %}
+
+{% block scripts %}
+  <script src="{% static 'js/dropzone.js' %}"></script>
+  <script src="{% static 'js/tinny.js' %}"></script>
+{% endblock scripts %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>Add Post</h2>
+    <form method="POST" enctype="multipart/form-data" id="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="dropzone" id="dropzone">
+            <div class="dz-message">
+                <h2>Povucite slike ovdje ili kliknite za upload</h2>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+  </div>
+{% endblock content %}

@@ -2,20 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 
-<<<<<<< HEAD
-=======
+
 from tinymce.models import HTMLField
 
->>>>>>> 0dea486 (tinnymce uređivač teksta)
+
 class Blog(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blogs')
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True)
-<<<<<<< HEAD
+
     content = models.TextField()
-=======
+
     content = HTMLField()
->>>>>>> 0dea486 (tinnymce uređivač teksta)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)

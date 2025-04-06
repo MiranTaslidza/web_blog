@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %} <!-- uvoizim sadržaj base.html -->
 
 {% block title %}Home{% endblock title %} <!-- ovdje se menja title -->
@@ -12,58 +13,13 @@
 
 <!-- blok za JS static fajlova -->
 {% block scripts %}
-  <script src="{% static 'js/blog_post.js' %}"></script>
+  
 {% endblock scripts %}
 
 <!-- blok za sadržaj -->
 {% block content %}
 
-<!-- modal za dodavanje posta -->
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mb-3 ms-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Add post
-</button>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Ad Blog</h1>
-        <button type="button" class="btn-close add-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-
-        <form action="" id="post-form">
-              {% csrf_token %}
-              {{ form.as_p }}
-
-            <!-- forma za unos slika dropzone -->
-            <div class="dropzone" data-url="/new_post/">
-              <div class="dz-message">
-                <!-- mjeesto teksta može se prikazati i slika po defaultu zajedno sa tekstom -->
-                <h2>Povucite slike ovdje ili kliknite za upload</h2>
-              </div>
-              <div class="dz-preview dz-image-preview">
-                <div class="dz-details">
-                  <div class="dz-size"><span data-dz-size></span></div>
-                  <div class="dz-filename"><span data-dz-name></span></div>
-                </div>
-                <div class="dz-image">
-                  <img data-dz-thumbnail />
-                </div>
-              </div>
-            </div>
-
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary add-modal-close" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" id="add-btn" class="btn btn-primary">Save changes</button>
-              </div>
-        </form>
-
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
@@ -114,11 +70,7 @@
         </div> 
         </a>
       </div>
-<<<<<<< HEAD
-      <div class="box box2">{{ blog.content|truncatewords:100 }}</div>
-=======
       <div class="box box2">{{ blog.content|truncatewords:80|safe }}</div>
->>>>>>> 0dea486 (tinnymce uređivač teksta)
 
       <a href="{% url 'blog_detail' blog.pk %}"><div class="fab"><i class="fa fa-arrow-down fa-3x"></i></div></a>
   </div>

@@ -23,24 +23,43 @@ def blog_detail(request, pk):
     blog = Blog.objects.get(pk=pk)  
     return render(request, 'blog/blog_detail.html', {'blog': blog})
 
-# krieranje posta
+
+
+
 @login_required
 def new_post(request):
-    form = PostForm(request.POST or None)
-
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.author = request.user
-            instance.save()  # Sačuvaj post pre dodavanja slika
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
 
+            # Dodavanje slika
             if request.FILES.getlist('image'):
                 for image in request.FILES.getlist('image'):
-                    Image.objects.create(blog=instance, image=image)
-                    print(request.FILES)  # Dodaj ovo u views.py
+                    Image.objects.create(blog=post, image=image)
 
-    context = {'form': form}
-    return render(request, 'blog/home.html', context)
+            # Ako je AJAX zahtjev
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'message': 'Post created successfully'}, status=200)
+
+            # Ako nije AJAX, klasični redirect
+            return redirect('home')
+
+    else:
+        form = PostForm()
+
+    return render(request, 'blog/new_post.html', {'form': form})
+
+
+
+
+
+
+
+   
 
 
 # brisanje posta
@@ -86,12 +105,8 @@ def edit_post(request, pk):
         'blog': blog,  # Prosljeđujemo post i slike da možemo prikazati postojeće slike u šablonu
     }
     return render(request, 'blog/edit_post.html', context)
-<<<<<<< HEAD
-=======
 
-
-
-import os
+# upload image za tinymce
 from django.core.files.base import ContentFile
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
@@ -103,4 +118,4 @@ def upload_image(request):
         file_url = default_storage.url(file_path)
         return JsonResponse({'location': file_url})
     return JsonResponse({'error': 'Invalid request'}, status=400)
->>>>>>> 0dea486 (tinnymce uređivač teksta)
+
