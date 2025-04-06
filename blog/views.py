@@ -29,8 +29,14 @@ def new_post(request):
         form = PostForm(request.POST)
         
         if form.is_valid():
+            # Kreiranje novog posta
             post = form.save(commit=False)
             post.author = request.user
+
+            # Spremanje polja 'is_public' koje je dodano u formu
+            post.is_public = form.cleaned_data['is_public']
+
+            # Spremanje posta
             post.save()
 
             # Dodavanje slika

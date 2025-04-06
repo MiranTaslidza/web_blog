@@ -1,65 +1,56 @@
-
-{% extends 'base.html' %} <!-- uvoizim sadržaj base.html -->
+{% extends 'base.html' %} <!-- uvozim sadržaj base.html -->
 
 {% block title %}Home{% endblock title %} <!-- ovdje se menja title -->
 
-{% load static %} <!-- uvoizim static fajle -->
+{% load static %} <!-- uvozim static fajle -->
 
-{%block css%}
+{% block css %}
   <link rel="stylesheet" href="{% static 'css/card_blog.css' %}">
-  <link rel="stylesheet" href="{% static 'css/drop_zone.css' %}">
+{% endblock css %}
 
-{%endblock css%}
-
-<!-- blok za JS static fajlova -->
 {% block scripts %}
   
 {% endblock scripts %}
 
-<!-- blok za sadržaj -->
 {% block content %}
-
-
-
-
-
-
+<!-- Koristimo <div> za svaki blog u petlji kako bi osigurali da je svaki post u svom okruženju -->
 {% for blog in blogs %}
-<div class="container">
-  <div class="left">
+<div class="blog-container"> <!-- Povećavam razmak između postova -->
+  <div class="container">
+    <div class="left">
       <div class="row img_box">
         {% if blog.images.all %}
         <img src="{{ blog.images.first.image.url }}" alt="Slika za blog {{ blog.title }}">
         {% else %}
-            <img src="{% static 'img/image_avatar.png' %}" alt="">
+        <img src="{% static 'img/image_avatar.png' %}" alt="">
         {% endif %}
       </div>
       <div class="row">
         <div class="left_left">
-            <h5>{{blog.created_at.day}}</h5>
-            <h6>{{ blog.created_at|date:"F" }}</h6>
-            <h6>{{ blog.created_at|date:"Y" }}</h6>
+          <h5>{{ blog.created_at.day }}</h5>
+          <h6>{{ blog.created_at|date:"F" }}</h6>
+          <h6>{{ blog.created_at|date:"Y" }}</h6>
         </div>
         <div class="left_right">
-            <table>
-              <tr>
-                <td><i class="fa fa-eye fa-2x"></i></td>
-                <td><i class="fa fa-heart-o fa-2x"></i></td>
-                <td><i class="fa fa-envelope-o fa-2x"></i></td>
-                <td><i class="fa fa-comments-o fa-2x"></i></td>
-              </tr>
-              <tr>
-                <td>20</td>
-                <td>20</td>
-                <td>20</td>
-                <td>20</td>
-              </tr>
-            </table>
+          <table>
+            <tr>
+              <td><i class="fa fa-eye fa-2x"></i></td>
+              <td><i class="fa fa-heart-o fa-2x"></i></td>
+              <td><i class="fa fa-envelope-o fa-2x"></i></td>
+              <td><i class="fa fa-comments-o fa-2x"></i></td>
+            </tr>
+            <tr>
+              <td>20</td>
+              <td>20</td>
+              <td>20</td>
+              <td>20</td>
+            </tr>
+          </table>
         </div>
       </div>
-  </div>
+    </div>
 
-  <div class="right">
+    <div class="right">
       <div class="box box1">
         <h1>{{ blog.title }}</h1>
 
@@ -67,15 +58,14 @@
         <div class="author">
           <img src="{{ blog.author.profile.profile_image.url }}" alt="Profilna slika">
           <h2 class="author_name">{{ blog.author.first_name }} {{ blog.author.last_name }}</h2>
-        </div> 
+        </div>
         </a>
       </div>
       <div class="box box2">{{ blog.content|truncatewords:80|safe }}</div>
 
       <a href="{% url 'blog_detail' blog.pk %}"><div class="fab"><i class="fa fa-arrow-down fa-3x"></i></div></a>
+    </div>
   </div>
 </div>
 {% endfor %}
-
-
 {% endblock content %}

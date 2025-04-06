@@ -1,16 +1,15 @@
 
 .container {
   display: flex;
-  width: 60%;
-  height:550px;
-  margin: 150px auto;
+  width: 100%; /* Podesi širinu na 100% da bi svaki post zauzeo celu širinu */
+  height: auto;
+  margin: 100px auto 50px; /* Dodaj margine na dnu kako bi postovi imali razmak između sebe */
   border: 1px solid black;
-  justify-content: center; 
+  justify-content: center;
   padding: 0px;
   -webkit-box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
-  
 }
 
 .left {
