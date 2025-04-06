@@ -7,9 +7,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
+    path('comments/', include('comments.urls')),
     path('profiles/', include('profiles.urls')),
     path('tinymce/', include('tinymce.urls')),
-
 ]
 if settings.DEBUG: # Django će servirati medijske fajlove SAMO u developmentu
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

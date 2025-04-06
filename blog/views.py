@@ -23,9 +23,6 @@ def blog_detail(request, pk):
     blog = Blog.objects.get(pk=pk)  
     return render(request, 'blog/blog_detail.html', {'blog': blog})
 
-
-
-
 @login_required
 def new_post(request):
     if request.method == "POST":
@@ -52,15 +49,6 @@ def new_post(request):
         form = PostForm()
 
     return render(request, 'blog/new_post.html', {'form': form})
-
-
-
-
-
-
-
-   
-
 
 # brisanje posta
 @login_required
