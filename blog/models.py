@@ -43,7 +43,7 @@ class Blog(models.Model):
             return  # Ako je slug već postavljen, nema potrebe za promenom
 
         # Ažuriraj slug sa imenom aplikacije i ID-jem bloga
-        self.slug = f"appname-{self.id}"
+        self.slug = f"blog-{self.id}"
         
         # Ponovo sačuvaj sa novim slugom
         super().save(update_fields=["slug"])
