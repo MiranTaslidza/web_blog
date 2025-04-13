@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
     path('profiles/', include('profiles.urls')),
+    path('comment/', include('comment.urls')),
     path('tinymce/', include('tinymce.urls')),
 ]
 if settings.DEBUG: # Django će servirati medijske fajlove SAMO u developmentu
