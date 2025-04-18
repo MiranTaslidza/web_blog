@@ -1,0 +1,27 @@
+.comment_header {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* razmak između slike i imena */
+}
+.profile_comment_image{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    
+}
+.comment_content{
+    margin-left: 4%;
+}
+
+.toggle_replies {
+    font-size: 14px;
+    margin-left: 4%;
+    margin-top: 5px;
+    user-select: none;
+}
+
+.replies {
+    margin-left: 30px;
+    margin-top: 10px;
+}
+

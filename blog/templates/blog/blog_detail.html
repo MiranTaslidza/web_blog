@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 <link rel="stylesheet" href="{% static 'css/blog_detail.css' %}">
 <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+<link rel="stylesheet" href="{% static 'css/comment.css' %}">
 {%endblock css%}
 
 <!-- blok za JS static fajlova -->
@@ -15,6 +16,7 @@
 <script src="{% static 'js/slider.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{% static 'js/alert.js' %}"></script>
+<script src="{% static 'js/comment.js' %}"></script>
 {% endblock scripts %}
 
 <!-- blok za sadržaj -->
@@ -85,7 +87,14 @@
     </div>
 
     <hr>
-    <h5>Coments:</h5>
+    
+
+    
+    <div class="ms-5 mb-5" id="comment">
+        <h5>Coments:</h5>
+
+    </div>
+
     
 
 </div>
