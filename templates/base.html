@@ -39,6 +39,7 @@
 
 
     <!-- prikazivanje poruke -->
+    <div id="ajax-message-container">
     {% if messages %}
     {% for message in messages %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -47,6 +48,7 @@
     </div>
     {% endfor %}
     {% endif %}
+    </div>
     <!-- Kraj prikazivanja poruka -->
 
 
