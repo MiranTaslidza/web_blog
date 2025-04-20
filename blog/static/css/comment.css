@@ -34,11 +34,12 @@
 .comment_actions button {
     height: 80px;
     width: 80px;
+    border-radius: 100%;
     background: none;
     border: none;
     padding: 0;
     margin-right: 10px;
-    color: #0d6efd;
+    color: #8b8b8b;
     font-size: 0.9rem;
     cursor: pointer;
     text-decoration: underline transparent;

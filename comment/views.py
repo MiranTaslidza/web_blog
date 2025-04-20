@@ -46,8 +46,14 @@ def add_comment(request):
     if request.method == 'POST': 
         blog_slug = request.POST.get('blog_slug') # uzimamo slug bloga
         content = request.POST.get('content') # uzimamo sadrzaj
+        parent_id = request.POST.get('parent_id') # uzimamo parent id za odgovor na komentar ++++
         blog = Blog.objects.get(slug=blog_slug) # uzimamo blog
-        comment = Comment(blog=blog, user=request.user, content=content) # kreiramo komentar
+
+        # Ako postoji parent_id, znači da je odgovor
+        parent = Comment.objects.get(id=parent_id) if parent_id else None
+
+        comment = Comment(blog=blog, user=request.user, content=content, parent=parent) # kreiramo komentar
+        
         comment.save() # snimamo
         return JsonResponse({'message': 'Comment added successfully'})
 
