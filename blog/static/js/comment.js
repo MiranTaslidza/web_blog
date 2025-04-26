@@ -38,9 +38,18 @@ function fetchComments() {
                         
                     </div>
                     <div class="reply-form-container mt-3" id="reply-form-${comment.id}" style="display:none;">
-                        <input type="text" class="form-control mb-2 reply-input" placeholder="Write a reply...">
-                        <button class="btn btn-sm btn-success submit-reply-btn" data-id="${comment.id}">Post Reply</button>
+                        <form class="d-flex align-items-center">
+                            <img src="${comment.profile_image}" class="rounded-circle me-3 ms-3" alt="User Image" width="45" height="45" />
+
+                            <div class="flex-grow-1">
+                                <div class="input-group">
+                                    <input type="text" class=" mb-2 reply-input  border-0 border-bottom custom-input" placeholder="Write a reply..." required style="border-radius: 0; width: 30%;">
+                                    <button class="btn btn-outline-primary ms-2 submit-reply-btn" data-id="${comment.id}">Post Reply</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+
                 `;
                 
                 // Ako komentar ima odgovore, dodaj ih

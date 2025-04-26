@@ -50,3 +50,20 @@
     text-decoration: underline;
     border-radius: 100%;
 }
+
+
+/* Stilizacija za input polje, uklanja okvir i dodaje samo donju crtu */
+/* Stilizacija za input polje, uklanja sve okvire osim donje crte */
+.custom-input {
+    border: none;                 /* Uklanja sve ivice okvira */
+    border-bottom: 2px solid #007bff; /* Dodaje samo donju plavu crtu */
+    box-shadow: none;             /* Uklanja sve senke oko inputa */
+    outline: none;                /* Uklanja fokus okvir */
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Fokusiran input sa promenom boje donje crte */
+.custom-input:focus {
+    border-bottom: 2px solid #0056b3; /* Tamnija boja donje crte kada je fokusirano */
+}
