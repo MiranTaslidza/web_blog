@@ -59,13 +59,6 @@ def add_comment(request):
 
 
 # edit komentara i odgorva na komentar
-@login_required
-def edit_comment(request):
-    if request.method == 'POST':
-        comment_id = request.POST.get('comment_id')
-        content = request.POST.get('content') # uzimamo sadrzaj
-        comment = Comment.objects.get(id=comment_id) # uzimamo komentar
-        comment.content = content # menjamo sadrzaj
-        comment.save() # snimamo
-        return JsonResponse({'message': 'Comment edited successfully'})
+
+
  

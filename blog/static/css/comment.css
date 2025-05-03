@@ -105,3 +105,11 @@
 .reply-input:focus {
   border-bottom: 1px solid #ccc;
 }
+
+
+/* menu button */
+.menu-btn {
+width: 30px;
+height: 30px;
+padding: 0; 
+} 
