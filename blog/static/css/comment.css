@@ -1,69 +1,107 @@
 .comment_header {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* razmak između slike i imena */
+  display: flex;
+  align-items: center;
+  gap: 10px; /* razmak između slike i imena */
 }
-.profile_comment_image{
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
-    
+.profile_comment_image {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
 }
-.comment_content{
-    margin-left: 4%;
+.comment_content {
+  margin-left: 4%;
 }
 
 .toggle_replies {
-    font-size: 14px;
-    margin-left: 4%;
-    margin-top: 5px;
-    user-select: none;
+  font-size: 14px;
+  margin-left: 4%;
+  margin-top: 5px;
+  user-select: none;
 }
 
 .replies {
-    margin-left: 30px;
-    margin-top: 10px;
+  margin-left: 30px;
+  margin-top: 10px;
 }
 
 #comment-form input[name="content"]:focus {
-    box-shadow: none;
-    border-color: #007bff;
+  box-shadow: none;
+  border-color: #007bff;
 }
 
 /* stilizacija odgovara i lajka */
 .comment_actions button {
-    height: 80px;
-    width: 80px;
-    border-radius: 100%;
-    background: none;
-    border: none;
-    padding: 0;
-    margin-right: 10px;
-    color: #8b8b8b;
-    font-size: 0.9rem;
-    cursor: pointer;
-    text-decoration: underline transparent;
-    transition: text-decoration 0.2s ease;
+  height: 80px;
+  width: 80px;
+  border-radius: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 10px;
+  color: #8b8b8b;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline transparent;
+  transition: text-decoration 0.2s ease;
 }
 
 .comment_actions button:hover {
-    text-decoration: underline;
-    border-radius: 100%;
+  text-decoration: underline;
+  border-radius: 100%;
 }
-
 
 /* Stilizacija za input polje, uklanja okvir i dodaje samo donju crtu */
 /* Stilizacija za input polje, uklanja sve okvire osim donje crte */
 .custom-input {
-    border: none;                 /* Uklanja sve ivice okvira */
-    border-bottom: 2px solid #007bff; /* Dodaje samo donju plavu crtu */
-    box-shadow: none;             /* Uklanja sve senke oko inputa */
-    outline: none;                /* Uklanja fokus okvir */
-    padding-left: 10px;
-    padding-right: 10px;
+  border: none; /* Uklanja sve ivice okvira */
+  border-bottom: 2px solid #007bff; /* Dodaje samo donju plavu crtu */
+  box-shadow: none; /* Uklanja sve senke oko inputa */
+  outline: none; /* Uklanja fokus okvir */
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 /* Fokusiran input sa promenom boje donje crte */
 .custom-input:focus {
-    border-bottom: 2px solid #0056b3; /* Tamnija boja donje crte kada je fokusirano */
+  border-bottom: 2px solid #0056b3; /* Tamnija boja donje crte kada je fokusirano */
+}
+
+.comment_header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Poravnanje svih elemenata ulevo */
+  /* width: 100%;  <-- ukloni ili komentariši ovu liniju */
+}
+.comment {
+  display: inline-block; /* Umesto block-level da bude tačno oko sadržaja */
+  position: relative; /* Za apsolutno pozicioniranje deteta */
+  margin-bottom: 0.5rem; /* (po želji) malo razmaka ispod */
+
+}
+
+.comment_content {
+  display: inline; /* inline da bude “jedan tok” sa .comment-container */
+  margin-left: 40px; /* pošto smo .comment već gurali marginom */
+}
+
+.comment_header > div {
+  display: flex;
+  align-items: center;
+}
+
+.reply-input {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+}
+
+.reply-input :hover{
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reply-input:focus {
+  border-bottom: 1px solid #ccc;
 }

@@ -5,6 +5,7 @@ const csrf = document.getElementsByName("csrfmiddlewaretoken");// nuzimam middle
 const messageContainer = document.getElementById("ajax-message-container");//za prikazivanje poruke koja se nalazi u base fajlu
 
 
+
 function fetchComments() {
     $.ajax({
         type: "GET",
@@ -21,13 +22,16 @@ function fetchComments() {
                 const toggleId = `toggle-${comment.id}`;    // ID za toggle dugme (da prikaže odgovore)
                 //html kod za prikaz komentara
                 let html = ` 
-                    <div class="comment mt-5">
+              
+                <div class="comment mt-5">
                     <div class="comment_header">
                         <img class="profile_comment_image" src="${comment.profile_image}" alt="">
                         <h5 class="comment_user">${comment.user}</h5>
                     </div>
-                    <p class="comment_content">${comment.content}</p>
 
+                    <p class="comment_content">${comment.content}</p>
+            
+               
                     <div class="comment_actions mt-2 ms-5">
                         <button class="btn btn-sm btn-outline-primary me-2 like-btn" data-id="${comment.id}">
                             👍 Like
@@ -38,18 +42,13 @@ function fetchComments() {
                         
                     </div>
                     <div class="reply-form-container mt-3" id="reply-form-${comment.id}" style="display:none;">
-                        <form class="d-flex align-items-center">
-                            <img src="${comment.profile_image}" class="rounded-circle me-3 ms-3" alt="User Image" width="45" height="45" />
-
-                            <div class="flex-grow-1">
-                                <div class="input-group">
-                                    <input type="text" class=" mb-2 reply-input  border-0 border-bottom custom-input" placeholder="Write a reply..." required style="border-radius: 0; width: 30%;">
-                                    <button class="btn btn-outline-primary ms-2 submit-reply-btn" data-id="${comment.id}">Post Reply</button>
-                                </div>
-                            </div>
-                        </form>
+                        <div class="input-group">
+                            <input type="text" class="ms-5 form-control reply-input" placeholder="Write a reply...">
+                            <button class="ms-2 btn btn-sm  btn-outline-primary submit-reply-btn" data-id="${comment.id}">Post Reply</button>
+                        </div>
                     </div>
-
+                </div>
+          
                 `;
                 
                 // Ako komentar ima odgovore, dodaj ih
@@ -104,7 +103,7 @@ function fetchComments() {
                 }, 0);  // Malo čekanje da se dodaju event listeneri
             });
 
-            // Dodavanje funkcionalnosti za "Reply" dugme
+            // Dodavanje funkcionalnosti za "Reply" dugme +++++++
             document.querySelectorAll('.reply-toggle-btn').forEach(button => {
                 button.addEventListener("click", function(event) {
                     const commentId = button.dataset.id;  // ID komentara na koji se odgovara
@@ -124,7 +123,6 @@ function fetchComments() {
         }
     });
 }
-
 
 // Pozivanje fetchComments kada stranica učita komentare
 fetchComments();
@@ -166,6 +164,7 @@ commentForm.addEventListener('submit', function(event) {
 
 
 // dodavanje odgovora na komentar
+
 document.addEventListener("click", function (event) {
     if (event.target && event.target.classList.contains("submit-reply-btn")) {
         const button = event.target;
@@ -209,3 +208,4 @@ document.addEventListener("click", function (event) {
         });
     }
 });
+
