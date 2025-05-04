@@ -59,6 +59,25 @@ def add_comment(request):
 
 
 # edit komentara i odgorva na komentar
+def edit_comment(request):
+    if request.method == 'POST':
+        comment_id = request.POST.get('comment_id')
+        content = request.POST.get('content')
+        comment = Comment.objects.get(id=comment_id)
+        comment.content = content
+        comment.save()
+        return JsonResponse({'message': 'Comment updated successfully'})
 
 
- 
+#  brisanje komentara
+@login_required
+def delete_comment(request):
+    if request.method == 'POST':
+        comment_id = request.POST.get('comment_id')
+        print(f'Comment ID: {comment_id}')  # Ovo će se pojaviti u terminalu
+        try:
+            comment = Comment.objects.get(id=comment_id)
+            comment.delete()
+            return JsonResponse({'message': 'Comment deleted successfully'})
+        except Comment.DoesNotExist:
+            return JsonResponse({'error': 'Comment not found'}, status=404)

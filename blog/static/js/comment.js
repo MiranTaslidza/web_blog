@@ -8,162 +8,191 @@ const messageContainer = document.getElementById("ajax-message-container");//za 
 
 function fetchComments() {
     $.ajax({
-        type: "GET",
-        url: "/comment/comments_list/",  // Uzimamo komentare sa servera
-        data: { slug: blogSlug },        // Slug bloga koji šaljemo da filtriramo komentare
-        success: function(response) {
-            commentsContainer.innerHTML = '<h5>Comments:</h5>';  // Resetujemo prikaz komentara
-            const data = response.data;
+      type: "GET",
+      url: "/comment/comments_list/",
+      data: { slug: blogSlug },
+      success: function(response) {
+        // Reset komentara
+        commentsContainer.innerHTML = '<h5>Comments:</h5>';
+        const data = response.data;
+        const lastRepliedToId = sessionStorage.getItem("lastRepliedToId");
+  
+        // Generišemo sav HTML za svaki komentar i odgovore
+        data.forEach(comment => {
+          const repliesId = `replies-${comment.id}`;
+          const toggleId = `toggle-${comment.id}`;
+  
+          // Generišemo HTML za odgovore
+          let repliesHtml = "";
+          if (comment.replies.length) {
+            comment.replies.forEach(r => {
+              repliesHtml += `
+                <div class="reply">
+                  <div class="comment_header">
+                    <img class="profile_comment_image" src="${r.profile_image}" alt="">
+                    <h6 class="comment_user">${r.user}</h6>
+                  </div>
 
-            const lastRepliedToId = sessionStorage.getItem("lastRepliedToId");  // Uzimamo poslednji odgovor na komentar da bi ostao otvoren replay od unesebog odgovora na komentar
+                  <p class="comment_content">${r.content}</p>
 
-            data.forEach(comment => {
-                const repliesId = `replies-${comment.id}`;  // ID za odgovore na komentar
-                const toggleId = `toggle-${comment.id}`;    // ID za toggle dugme (da prikaže odgovore)
-                //html kod za prikaz komentara
-                let html = ` 
-              
-                <div class="comment mt-5">
-                    <div class="comment_header">
-                        <img class="profile_comment_image" src="${comment.profile_image}" alt="">
-                        <h5 class="comment_user">${comment.user}</h5>
+                  <form class="edit-comment-form" id="edit-comment-${r.id}" style="display:none;">
+                    <textarea class="ms-5 form-control edit-comment-input" id="edit-comment-input-${r.id}">${r.content}</textarea>
+                    <div class="edit_btn mt-2">
+                      <button class="btn btn-sm btn-outline-primary save-edit-btn" data-id="${r.id}">Save</button>
+                      <button class="btn btn-sm btn-outline-secondary cancel-edit-btn">Cancel</button>
                     </div>
+                  </form>
 
-                    <p class="comment_content">${comment.content}</p>
-
-                    <!-- Edit form -->	
-                    <form class="edit-comment-form" id="edit-comment-${comment.id}" style="display: none;">
-                    <input type="text" class="form-control edit-comment-input" id="edit-comment-input-${comment.id}" value="${comment.content}">
-                    <button class="btn btn-sm btn-outline-primary save-edit-btn" data-id="${comment.id}">
-                        Save
+                  <div class="btn-group">
+                    <button style="border-radius: 100%;" type="button" class="menu-btn ms-3 btn btn-outline-secondary" data-bs-toggle="dropdown">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                    </svg>
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary cancel-edit-btn">
-                        Cancel
-                    </button>
-                    </form>
-
-                    <!--menu button-->
-                    <div class="btn-group">
-                        <button style="border-radius: 100%;" type="button" class="menu-btn ms-3 btn btn-outline-secondary " data-bs-toggle="dropdown" aria-expanded="false">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <button class="dropdown-item edit-btn" data-target="#edit-comment-${r.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                             </svg>
+                            Edit
                         </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <button class="dropdown-item btn btn-link edit-btn" data-target="#edit-comment-${comment.id}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                </svg>
-                                Edit
-                                </button>
-                            </li>
-                                <li><a class="dropdown-item" href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                                </svg>
-                                Delete</a>
-                            </li>
-                        </ul>
-                    </div>
-                
-            
-               
-                    <div class="comment_actions mt-2 ms-5">
-                        <button class="btn btn-sm btn-outline-primary me-2 like-btn" data-id="${comment.id}">
-                            👍 Like
+                      </li>
+                      <li>
+                        <button class="dropdown-item delete-comment-btn" data-id="${r.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash2" viewBox="0 0 16 16">
+                            <path d="M14 3a.7.7 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.7.7 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2M3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5s-3.69-.311-4.785-.793"/>
+                            </svg>
+                            Delete
                         </button>
-                        <button class="btn btn-sm btn-outline-secondary reply-toggle-btn" data-id="${comment.id}">
-                            💬 Reply
-                        </button>
-                        
-                    </div>
-                    <div class="reply-form-container mt-3" id="reply-form-${comment.id}" style="display:none;">
-                        <div class="input-group">
-                            <input type="text" class="ms-5 form-control reply-input" placeholder="Write a reply...">
-                            <button class="ms-2 btn btn-sm  btn-outline-primary submit-reply-btn" data-id="${comment.id}">Post Reply</button>
-                        </div>
-                    </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="comment_actions mt-2">
+                    <button class="btn btn-sm btn-outline-primary like-btn" data-id="${r.id}">👍 Like</button>
+                  </div>
                 </div>
-          
-                `;
-                
-                // Ako komentar ima odgovore, dodaj ih
-                if (comment.replies.length) {
-                    html += `
-                    <div class="toggle_replies" id="${toggleId}" style="cursor:pointer; color:#007bff">
-                        ▼ ${comment.replies.length} answer${comment.replies.length > 1 ? 's' : ''}
-                    </div>
-                    <div class="replies" id="${repliesId}" style="display:none">
-                    `;
-                    comment.replies.forEach(r => {
-                        html += `
-                        <div class="reply">
-                            <div class="comment_header">
-                            <img class="profile_comment_image" src="${r.profile_image}" alt="">
-                            <h6 class="comment_user">${r.user}</h6>
-                            </div>
-                            <p class="comment_content">${r.content}</p>
-                        </div>
-                        `;
-                    });
-                    html += `</div>`;  // Zatvaranje div-a za odgovore
-                }
-                html += `</div>`;  // Zatvaranje div-a za komentar
-
-                commentsContainer.innerHTML += html;  // Dodajemo generisani HTML u stranicu
-
-                // Dodavanje toggle funkcionalnosti za prikaz odgovora
-                setTimeout(() => {
-                    const toggle = document.getElementById(toggleId);
-                    const replies = document.getElementById(repliesId);
-                    if (toggle && replies) {
-                        toggle.addEventListener("click", () => {
-                            const hidden = replies.style.display === "none";
-                            replies.style.display = hidden ? "block" : "none";
-                            toggle.innerHTML = (hidden ? "▲ " : "▼ ") + `${comment.replies.length} answer${comment.replies.length > 1 ? 's' : ''}`;
-                        });
-                    }
-
-                    //dodavanje funkcionalnosti za prikaz odgovora na komentar kada se doda odgovor
-                    if (lastRepliedToId && parseInt(lastRepliedToId) === comment.id) {
-                        if (replies) replies.style.display = "block";
-                        if (toggle) toggle.innerHTML = "▲ " +
-                            `${comment.replies.length} answer${comment.replies.length > 1 ? 's' : ''}`;
-
-                        const replyForm = document.getElementById(`reply-form-${comment.id}`);
-                        if (replyForm) replyForm.style.display = "block";
-
-                        sessionStorage.removeItem("lastRepliedToId");  // izbriši nakon prikaza
-                    }
-
-                }, 0);  // Malo čekanje da se dodaju event listeneri
+              `;
             });
-
-            // Dodavanje funkcionalnosti za "Reply" dugme +++++++
-            document.querySelectorAll('.reply-toggle-btn').forEach(button => {
-                button.addEventListener("click", function(event) {
-                    const commentId = button.dataset.id;  // ID komentara na koji se odgovara
-                    const replyForm = document.getElementById(`reply-form-${commentId}`);  // Forma za unos odgovora
-                    
-                    // Toggle (prikazivanje ili skrivanje) forme za odgovor
-                    if (replyForm.style.display === "none") {
-                        replyForm.style.display = "block";  // Prikazivanje forme
-                    } else {
-                        replyForm.style.display = "none";  // Sakrivanje forme
-                    }
-                });
-            });
-        },
-        error: function(err) {
-            console.log(err);  // Ako dođe do greške, loguj grešku
-        }
+          }
+  
+          // Celokupan HTML jednog komentara
+          let html = `
+            <div class="comment mt-5" id="comment-${comment.id}">
+              <div class="comment_header">
+                <img class="profile_comment_image" src="${comment.profile_image}" alt="">
+                <h5 class="comment_user">${comment.user}</h5>
+              </div>
+              <p class="comment_content">${comment.content}</p>
+  
+              <form class="edit-comment-form" id="edit-comment-${comment.id}" style="display:none;">
+                <textarea class="ms-5 form-control edit-comment-input" id="edit-comment-input-${comment.id}">${comment.content}</textarea>
+                <div class="edit_btn mt-2">
+                  <button class="btn btn-sm btn-outline-primary save-edit-btn" data-id="${comment.id}">Save</button>
+                  <button class="btn btn-sm btn-outline-secondary cancel-edit-btn">Cancel</button>
+                </div>
+              </form>
+  
+              <div class="btn-group">
+                <button style="border-radius: 100%;" type="button" class="menu-btn ms-3 btn btn-outline-secondary" data-bs-toggle="dropdown">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg>
+                    </button>
+                    <ul class="dropdown-menu">
+                    <li>
+                    <button class="dropdown-item edit-btn" data-target="#edit-comment-${comment.id}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                    </svg>
+                    Edit
+                    </button>
+                  </li>
+                  <li>
+                    <button class="dropdown-item delete-comment-btn" data-id="${comment.id}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash2" viewBox="0 0 16 16">
+                        <path d="M14 3a.7.7 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.7.7 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2M3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5s-3.69-.311-4.785-.793"/>
+                        </svg>
+                        Delete
+                    </button>
+                  </li>
+                </ul>
+              </div>
+  
+              <div class="comment_actions mt-2 ms-5">
+                <button class="btn btn-sm btn-outline-primary like-btn" data-id="${comment.id}">👍 Like</button>
+                <button class="btn btn-sm btn-outline-secondary reply-toggle-btn" data-id="${comment.id}">💬 Reply</button>
+              </div>
+  
+              <div class="reply-form-container mt-3" id="reply-form-${comment.id}" style="display:none;">
+                <div class="input-group">
+                  <input type="text" class="ms-5 form-control reply-input" placeholder="Write a reply...">
+                  <button class="ms-2 btn btn-sm btn-outline-primary submit-reply-btn" data-id="${comment.id}">Post Reply</button>
+                </div>
+              </div>
+            </div>
+  
+            <div class="toggle_replies" id="${toggleId}" style="cursor:pointer; color:#007bff">
+              ▼ ${comment.replies.length} answer${comment.replies.length === 1 ? '' : 's'}
+            </div>
+            <div class="replies" id="${repliesId}" style="display:none;">
+              ${repliesHtml}
+            </div>
+          `;
+  
+          // Dodajemo u container
+          commentsContainer.innerHTML += html;
+  
+          // Ako je odgovor dodat ranije, prikaži ga
+          if (lastRepliedToId && parseInt(lastRepliedToId) === comment.id) {
+            const repliesDiv = document.getElementById(repliesId);
+            const toggleBtn = document.getElementById(toggleId);
+            repliesDiv.style.display = 'block';
+            toggleBtn.innerHTML = '▲ ' + `${comment.replies.length} answer${comment.replies.length === 1 ? '' : 's'}`;
+            document.getElementById(`reply-form-${comment.id}`).style.display = 'block';
+            sessionStorage.removeItem("lastRepliedToId");
+          }
+        });
+  
+        // Dodavanje listenera za sve toggles i dugmad
+        document.querySelectorAll('.toggle_replies').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.id.split('-')[1];
+            const repliesDiv = document.getElementById(`replies-${id}`);
+            const hidden = repliesDiv.style.display === 'none';
+            repliesDiv.style.display = hidden ? 'block' : 'none';
+            btn.innerHTML = (hidden ? '▲ ' : '▼ ') + `${repliesDiv.children.length} answer${repliesDiv.children.length === 1 ? '' : 's'}`;
+          });
+        });
+  
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const menu = btn.nextElementSibling;
+            menu.classList.toggle('show');
+          });
+        });
+  
+        document.querySelectorAll('.reply-toggle-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            const form = document.getElementById(`reply-form-${id}`);
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+          });
+        });
+  
+        // Ostatak listenera (save, cancel, delete, submit reply) zadrži kako imaš.
+      },
+      error: function(err) {
+        console.error(err);
+      }
     });
-}
-
-// Pozivanje fetchComments kada stranica učita komentare
-fetchComments();
+  }
+  
+  // Početni poziv
+  fetchComments();
+  
 
 // dodavanje komentara
 commentForm.addEventListener('submit', function(event) {
@@ -252,6 +281,86 @@ document.addEventListener("click", function (event) {
     }
 });
 
+//memorisanje  editovanog komentara klikom na dugme "Save" poziva se url koji memoriše editovani komentar u bazu
+commentsContainer.addEventListener('click', async (e) => {
+    const saveBtn = e.target.closest('.save-edit-btn');
+    if (!saveBtn) return;
+
+    e.preventDefault();
+
+    const commentId = saveBtn.dataset.id;
+    const form = document.querySelector(`#edit-comment-${commentId}`);
+    const textarea = form.querySelector('.edit-comment-input');
+    const newContent = textarea.value.trim();
+
+    if (!newContent) return;
+
+    try {
+        await fetch('/comment/edit_comment/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrf[0].value,  // koristiš prvi pronađeni token
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                comment_id: commentId,
+                content: newContent
+            })
+        });
+
+
+        // Ažuriraj prikaz komentara
+        const contentParagraph = form.previousElementSibling;
+        contentParagraph.textContent = newContent;
+
+        // Sakrij formu i prikaži paragraf + meni (ako postoji)
+        form.style.display = 'none';
+        contentParagraph.style.display = 'block';
+
+        const menu = saveBtn.closest('.btn-group');
+        if (menu) menu.style.display = 'inline-block';
+    } catch (error) {
+        console.error('Greška prilikom slanja komentara:', error);
+    }
+});
+
+// brisanje komentara
+commentsContainer.addEventListener('click', async e => {
+    const deleteBtn = e.target.closest('.delete-comment-btn');
+
+    if (!deleteBtn) return;
+    
+    const commentId = deleteBtn.dataset.id;
+    
+    if (!commentId) return;
+
+    if (!confirm('Are you sure you want to delete this comment?')) return;
+
+    try {
+        const response = await fetch('/comment/delete_comment/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrf[0].value,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                comment_id: commentId
+            })
+        });
+
+        if (response.ok) {
+            const commentDiv = deleteBtn.closest('.comment');
+            if (commentDiv) commentDiv.remove();
+        }
+
+        fetchComments();
+
+    } catch (error) {
+        // opcionalno: možeš prikazati grešku korisniku alertom ako želiš
+    }
+});
+
+
 
 // 1) Otvori formu na klik “Edit”
 commentsContainer.addEventListener('click', e => {
@@ -262,11 +371,20 @@ commentsContainer.addEventListener('click', e => {
     const form = document.querySelector(btn.dataset.target);
     const p    = form.previousElementSibling;
     const menu = btn.closest('.btn-group'); // meni koji treba sakriti
+    const input = form.querySelector('.edit-comment-input'); // input u formi
   
     // Sakrij paragraf i meni, prikaži formu
     p.style.display    = 'none';
     form.style.display = 'block';
     if (menu) menu.style.display = 'none';
+    // fokusiraj na input
+    if (input) {
+        input.focus();
+        // Pomjeri kursor na kraj teksta
+        const val = input.value;
+        input.value = '';
+        input.value = val;
+    } 
   });
   
   // 2) Sakrij formu na klik “Cancel”
@@ -284,3 +402,33 @@ commentsContainer.addEventListener('click', e => {
     if (menu) menu.style.removeProperty('display');
   });
   
+//   ligika koja automatski otkriva tekst u text arei
+  commentsContainer.addEventListener('click', e => {
+    const btn = e.target.closest('.edit-btn');
+    if (!btn) return;
+
+    e.preventDefault();
+    const form = document.querySelector(btn.dataset.target);
+    const p    = form.previousElementSibling;
+    const menu = btn.closest('.btn-group');
+
+    // Sakrij paragraf i meni, prikaži formu
+    p.style.display    = 'none';
+    form.style.display = 'block';
+    if (menu) menu.style.display = 'none';
+
+    // Fokusiraj textarea i pomjeri kursor na kraj
+    const textarea = form.querySelector('.edit-comment-input');
+    if (textarea) {
+        textarea.focus();
+        // Resetuj visinu da raste ispravno
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    // Automatsko rastvaranje textarea pri unosu
+    textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';  // Resetuj visinu
+        textarea.style.height = textarea.scrollHeight + 'px';  // Podesi visinu prema sadržaju
+    });
+});

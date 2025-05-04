@@ -113,3 +113,16 @@ width: 30px;
 height: 30px;
 padding: 0; 
 } 
+
+.edit-comment-input{
+
+  width: 100%;          /* Širina 100% od roditelja */
+  resize: none;         /* Onemogući manualno promenjivanje veličine */
+  overflow-y: hidden;   /* Sakrij skrol traku dok ne bude potrebno */
+  padding: 0;
+
+}
+
+.edit_btn{
+  margin-left: 52%;
+}
