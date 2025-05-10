@@ -7,15 +7,19 @@ from profiles.models import Profile
 from django.contrib import messages
 
 
+
 # prikaz svih postova
 def home(request):
     form = PostForm() # kreiranje forme
     blog = Blog.objects.all()
+  # Uzimamo sve lajkove
     context = {
         'blogs': blog,
-        'form': form
+        'form': form,
+
     }
     return render(request, 'blog/home.html', context)
+
 
 # prikaz detalja posta
 @login_required

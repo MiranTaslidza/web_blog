@@ -1,3 +1,4 @@
+
 const commentsContainer = document.getElementById("comment");
 const blogSlug = commentsContainer.dataset.slug;  // uzimamo slug direktno iz HTML-a
 const commentForm = document.getElementById("comment-form"); // uzimamo formu
@@ -43,8 +44,10 @@ function fetchComments() {
                     </div>
                   </form>
 
-                  <div class="btn-group">
-                    <button style="border-radius: 100%;" type="button" class="menu-btn ms-3 btn btn-outline-secondary" data-bs-toggle="dropdown">
+                ${r.can_edit || r.can_delete ? 
+                ` 
+                <div class="btn-group">
+                    <button style="border-radius: 100%;" type="button" class=" ms-3 btn btn-outline-secondary" data-bs-toggle="dropdown">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
                     </svg>
@@ -69,6 +72,9 @@ function fetchComments() {
                       </li>
                     </ul>
                   </div>
+                  ` : ''
+                }
+                
                   <div class="comment_actions mt-2">
                     <button class="btn btn-sm btn-outline-primary like-btn" data-id="${r.id}">👍 Like</button>
                   </div>
@@ -93,9 +99,14 @@ function fetchComments() {
                   <button class="btn btn-sm btn-outline-secondary cancel-edit-btn">Cancel</button>
                 </div>
               </form>
+
+
   
-              <div class="btn-group">
-                <button style="border-radius: 100%;" type="button" class="menu-btn ms-3 btn btn-outline-secondary" data-bs-toggle="dropdown">
+            ${comment.can_edit || comment.can_delete ? 
+            `
+            <div class="btn-group">
+                
+                <button type="button" style="border-radius: 100%;" class="btn btn-outline-secondary ms-2" data-bs-toggle="dropdown" >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
                 </svg>
@@ -120,6 +131,10 @@ function fetchComments() {
                   </li>
                 </ul>
               </div>
+              
+              ` : ''}
+
+
   
               <div class="comment_actions mt-2 ms-5">
                 <button class="btn btn-sm btn-outline-primary like-btn" data-id="${comment.id}">👍 Like</button>
