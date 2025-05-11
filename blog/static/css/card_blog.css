@@ -1,4 +1,3 @@
-
 .container {
   display: flex;
   width: 100%; /* Podesi širinu na 100% da bi svaki post zauzeo celu širinu */
@@ -148,124 +147,194 @@
   box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
 }
 
-/* Ekrani širine 1200px i manje */
-@media (max-width: 1200px) {
-  .container {
-    width: 80%;
-    margin: 100px auto;
-  }
-  .left, .right {
-    width: 100%;
-  }
-  .left_right, .left_left {
-    width: 100%;
-    float: none;
-  }
-  .img_box {
-    width: 100%;
-    top: 0;
-  }
-}
+/* Medija upiti za postupno povećavanje elemenata */
 
-/* Ekrani širine 992px i manje */
-@media (max-width: 992px) {
+/* Za rezolucije između 992px i 1200px */
+@media (max-width: 1200px) and (min-width: 992px) {
   .container {
     width: 90%;
-    margin: 80px auto;
   }
+  
+  .left {
+    width: 60%;
+  }
+  
+  .right {
+    width: 35%;
+  }
+  
+  .img_box {
+    height: 300px;
+    top: -60px;
+  }
+  
+  .img_box img {
+    height: 300px;
+  }
+  
   .left_left h5 {
     font-size: 4rem;
   }
+  
   .left_left h6 {
     font-size: 1.5rem;
   }
+  
   .left_right table {
-    width: 100%;
+    width: 300px;
   }
-}
-
-/* Ekrani širine 768px i manje */
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    height: auto;
-    margin: 50px auto;
+  
+  .box {
+    width: 320px;
   }
-  .img_box {
-    height: auto;
+  
+  .box2 {
+    height: 350px;
   }
-  .img_box img {
-    width: 100%;
-    height: auto;
-  }
+  
   .fab {
-    right: 0;
-    margin-top: 20px;
+    width: 70px;
+    height: 70px;
+    right: -250px;
   }
 }
 
-/* Ekrani širine 576px i manje */
-@media (max-width: 576px) {
-  .left_left h5 {
-    font-size: 3rem;
-  }
-  .left_left h6 {
-    font-size: 1.2rem;
-  }
-  .author {
-    width: 100%;
-    text-align: center;
-  }
-  .author img {
-    margin: 0 10px;
-  }
-}
-
-@media (max-width: 1889px) {
+/* Za rezolucije između 768px i 992px (tableti) */
+@media (max-width: 992px) and (min-width: 768px) {
   .container {
     flex-direction: column;
     align-items: center;
     width: 90%;
-    height: auto;
-    margin: 50px auto;
   }
-  .left, .right {
-    width: 100%;
+  
+  .left {
+    width: 90%;
   }
+  
+  .right {
+    width: 90%;
+  }
+  
   .img_box {
-    width: 100%;
-    top: 0;
+    height: 250px;
+    width: 80%;
+    margin: 0 auto;
+    top: -40px;
   }
+  
   .img_box img {
-    width: 100%;
-    height: auto;
+    height: 250px;
   }
-  .left_left, .left_right {
-    width: 100%;
-    float: none;
-  }
+  
   .left_left h5 {
-    font-size: 4rem;
-    text-align: center;
+    font-size: 3rem;
   }
+  
   .left_left h6 {
-    font-size: 1.5rem;
-    text-align: center;
+    font-size: 1.2rem;
   }
+  
   .left_right table {
-    width: 100%;
-    margin-top: 20px;
+    width: 250px;
+    margin-top: 30px;
   }
+  
   .left_right td {
     padding-right: 20px;
   }
+  
   .box {
-    width: 100%;
-    margin-left: 0;
+    width: 90%;
+    margin: 0 auto;
   }
+  
+  .box2 {
+    height: 250px;
+  }
+  
   .fab {
-    right: 0;
-    margin-top: 20px;
+    width: 60px;
+    height: 60px;
+    right: 20px;
   }
 }
 
+/* Za rezolucije manje od 768px (mobilni) */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    margin: 50px auto 30px;
+  }
+  
+  .left {
+    width: 100%;
+  }
+  
+  .right {
+    width: 100%;
+  }
+  
+  .img_box {
+    height: 200px;
+    width: 90%;
+    margin: 0 auto;
+    top: -20px;
+  }
+  
+  .img_box img {
+    height: 200px;
+  }
+  
+  .left_left, .left_right {
+    width: 100%;
+    float: none;
+    text-align: center;
+  }
+  
+  .left_left h5 {
+    font-size: 2.5rem;
+  }
+  
+  .left_left h6 {
+    font-size: 1rem;
+  }
+  
+  .left_right table {
+    width: 100%;
+    margin: 20px auto;
+  }
+  
+  .left_right td {
+    padding-right: 10px;
+  }
+  
+  .box {
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  .box1 {
+    margin: 5px;
+  }
+  
+  .box2 {
+    height: 200px;
+  }
+  
+  .author {
+    margin: 0 auto;
+  }
+  
+  .fab {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+    padding-top: 5px;
+  }
+  
+  .fab i {
+    font-size: 2rem;
+  }
+}
