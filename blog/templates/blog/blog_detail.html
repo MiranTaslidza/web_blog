@@ -18,6 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{% static 'js/alert.js' %}"></script>
 <script src="{% static 'js/comment.js' %}"></script>
+<script src="{% static 'js/likes.js' %}"></script>
 {% endblock scripts %}
 
 <!-- blok za sadržaj -->
@@ -63,23 +64,35 @@
                 <h1>{{ blog.created_at|date:"Y" }}</h1>
             </div>
             <div class="left_right">
-                <table>
-                <tr>
-                    <td><i class="fa fa-eye fa-2x"></i></td>
-                    <td><i class="fa fa-heart-o fa-2x"></i></td>
-                    <td><i class="fa fa-envelope-o fa-2x"></i></td>
-                    <td><i class="fa fa-comments-o fa-2x"></i></td>
-                </tr>
-                <tr>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    {% if user.is_authenticated and blog.author == user%}
-                    <td class="p-0 m-0" style="width: 100px;"><a href="{% url 'edit_post' blog.pk %}" class="btn btn-outline-primary btn-lg p-0 m-0" style="width: 100%;" >Edit</a></td>
-                    <td class="p-0 m-0" style="width: 100px;"><btn id="delete" data-id="{{ blog.pk }}"  class="btn btn-outline-danger btn-lg p-0 m-0  ms-2" style="width: 100%;">Delete</btn></td>
-                    {% endif %} 
-                </tr>
+               <table>
+                    <tr>
+                        <td><i class="fa fa-eye fa-2x"></i></td>
+                        <td>
+                            {% if user.is_authenticated %}
+                                <span id="like-button" data-blog-id="{{ blog.id }}" style="cursor: pointer;">
+                                    {% if is_liked %}
+                                        <i id="heart-icon" class="fa fa-heart fa-2x" style="color: red;"></i>
+                                    {% else %}
+                                        <i id="heart-icon" class="fa fa-heart-o fa-2x"></i>
+                                    {% endif %}
+                                </span>
+                            {% else %}
+                                <i class="fa fa-heart-o fa-2x"></i>
+                            {% endif %}
+                        </td>
+                        <td><i class="fa fa-envelope-o fa-2x"></i></td>
+                        <td><i class="fa fa-comments-o fa-2x"></i></td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td id="like-count">{{ blog.likes.count }}</td>
+                        <td>20</td>
+                        <td>20</td>
+                        {% if user.is_authenticated and blog.author == user%}
+                        <td class="p-0 m-0" style="width: 100px;"><a href="{% url 'edit_post' blog.pk %}" class="btn btn-outline-primary btn-lg p-0 m-0" style="width: 100%;" >Edit</a></td>
+                        <td class="p-0 m-0" style="width: 100px;"><btn id="delete" data-id="{{ blog.pk }}"  class="btn btn-outline-danger btn-lg p-0 m-0  ms-2" style="width: 100%;">Delete</btn></td>
+                        {% endif %} 
+                    </tr>
                 </table>
                 
                 

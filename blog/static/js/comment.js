@@ -8,21 +8,24 @@ const messageContainer = document.getElementById("ajax-message-container");//za 
 
 
 function fetchComments() {
+
     $.ajax({
       type: "GET",
       url: "/comment/comments_list/",
       data: { slug: blogSlug },
       success: function(response) {
+
         // Reset komentara
         commentsContainer.innerHTML = '<h5>Comments:</h5>';
         const data = response.data;
         const lastRepliedToId = sessionStorage.getItem("lastRepliedToId");
+
   
         // Generišemo sav HTML za svaki komentar i odgovore
         data.forEach(comment => {
           const repliesId = `replies-${comment.id}`;
           const toggleId = `toggle-${comment.id}`;
-  
+
           // Generišemo HTML za odgovore
           let repliesHtml = "";
           if (comment.replies.length) {
@@ -75,10 +78,12 @@ function fetchComments() {
                   ` : ''
                 }
                 
-                  <div class="comment_actions mt-2">
-                    <button class="btn btn-sm btn-outline-primary like-btn" data-id="${r.id}">👍 Like</button>
+                <!-- prikaz lajkova odgovora na komentar-->
+                <div class="comment_actions mt-2">
+                    <button class="btn btn-sm btn-outline-primary like-btn" data-id="${r.id}">👍 Like ${r.like_count || 0}</button>
                   </div>
                 </div>
+
               `;
             });
           }
@@ -137,7 +142,9 @@ function fetchComments() {
 
   
               <div class="comment_actions mt-2 ms-5">
-                <button class="btn btn-sm btn-outline-primary like-btn" data-id="${comment.id}">👍 Like</button>
+
+               <button class="btn btn-sm btn-outline-primary like-btn" data-id="${comment.id}">👍 Like ${comment.like_count || 0}</button>
+
                 <button class="btn btn-sm btn-outline-secondary reply-toggle-btn" data-id="${comment.id}">💬 Reply</button>
               </div>
   
@@ -196,6 +203,9 @@ function fetchComments() {
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
           });
         });
+
+        // Postavljanje listenera za lajkove
+        setupLikeButtons();
   
         // Ostatak listenera (save, cancel, delete, submit reply) zadrži kako imaš.
       },
@@ -447,3 +457,43 @@ commentsContainer.addEventListener('click', e => {
         textarea.style.height = textarea.scrollHeight + 'px';  // Podesi visinu prema sadržaju
     });
 });
+
+// lajkovanje komentara
+function setupLikeButtons() {
+  document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const commentId = this.dataset.id;
+      
+      // AJAX poziv za lajkanje/unlike komentara
+      $.ajax({
+        type: "POST",
+        url: `/likes/comment/${commentId}/`,
+        data: {
+          csrfmiddlewaretoken: csrf[0].value
+        },
+        success: (response) => {
+          // Ažuriraj broj lajkova u dugmetu
+          this.innerHTML = `👍 Like ${response.like_count || 0}`;
+          
+          // Dodaj/ukloni klasu za vizualni feedback
+          if (response.status === 'liked') {
+            this.classList.add('liked');
+          } else {
+            this.classList.remove('liked');
+          }
+        },
+        error: (error) => {
+          console.error('Error:', error);
+          
+          // Opciono - prikaži poruku o grešci
+          messageContainer.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Error liking comment. Please try again.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          `;
+        }
+      });
+    });
+  });
+}

@@ -4,6 +4,7 @@ from blog.models import Blog
 from .models import Comment
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from likes.models import Like
 
 def all_comments(request):
     blog_slug = request.GET.get('slug')
@@ -17,13 +18,24 @@ def all_comments(request):
     
     data = []
     for comment in comments:
+
+        # Dodavanje broja lajkova za komentar
+        comment.likes_count = Like.objects.filter(comment=comment).count()
+        comment.is_liked = request.user.is_authenticated and Like.objects.filter(user=request.user, comment=comment).exists()
+
         try:
             profile_image_url = comment.user.profile.profile_image.url
         except Exception:
             profile_image_url = ''
             
         replies_data = []
+        # Jedna petlja za odgovore - dohvaćanje i formatiranje odgovora
         for reply in comment.replies.all().select_related('user', 'user__profile'):
+
+            # Dodavanje broja lajkova za odgovor
+            reply.likes_count = Like.objects.filter(comment=reply).count()
+            reply.is_liked = request.user.is_authenticated and Like.objects.filter(user=request.user, comment=reply).exists()
+
             try:
                 reply_profile_image = reply.user.profile.profile_image.url
             except Exception:
@@ -37,6 +49,10 @@ def all_comments(request):
                 'created_at': reply.created_at.strftime("%Y-%m-%d %H:%M:%S"),
                 'can_edit': request.user.is_authenticated and request.user == reply.user,
                 'can_delete': request.user.is_authenticated and request.user == reply.user,
+
+                # prikaz lajkova odgovora na komentar
+                'like_count': reply.likes_count,
+                'is_liked': reply.is_liked,
             })
             
         data.append({
@@ -48,6 +64,10 @@ def all_comments(request):
             'can_edit': request.user.is_authenticated and request.user == comment.user,
             'can_delete': request.user.is_authenticated and request.user == comment.user,
             'replies': replies_data,
+            
+            # prikaz lajkova komentara
+            'like_count': comment.likes_count,
+            'is_liked': comment.is_liked,
         })
     return JsonResponse({'data': data})
 

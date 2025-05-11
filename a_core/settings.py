@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'blog',
     'profiles',
     'comment',
-    'likes',
+    'likes'
 ]
 
 

@@ -1,5 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+
+from likes.models import Like
 from .models import Blog, Image
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm
@@ -8,11 +10,12 @@ from django.contrib import messages
 
 
 
+
 # prikaz svih postova
 def home(request):
     form = PostForm() # kreiranje forme
     blog = Blog.objects.all()
-  # Uzimamo sve lajkove
+
     context = {
         'blogs': blog,
         'form': form,
@@ -25,7 +28,20 @@ def home(request):
 @login_required
 def blog_detail(request, pk):
     blog = Blog.objects.get(pk=pk)  
-    return render(request, 'blog/blog_detail.html', {'blog': blog})
+        
+    # provjera da li je post lajkovan
+    is_liked = False
+    if request.user.is_authenticated:
+        is_liked = Like.objects.filter(user=request.user, blog=blog).exists()
+    
+    context = {
+        'blog': blog,
+        'is_liked': is_liked, # da li je post lajkovan
+    }
+    return render(request, 'blog/blog_detail.html', context)
+
+
+
 
 @login_required
 def new_post(request):
