@@ -10,7 +10,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=255) #naslov bloga
     slug = models.SlugField(unique=True, blank=True) # slug bloga koji če da sadrži  naziv aplikacij ei id bloga
     content = HTMLField() # sadrzaj bloga
-
+    views = models.PositiveIntegerField(default=0)  # Broj pregleda bloga
     created_at = models.DateTimeField(auto_now_add=True) # kada je  blog kreiran
     updated_at = models.DateTimeField(auto_now=True) # kada je blog azuriran
     is_published = models.BooleanField(default=True) # da li je blog objavljivan

@@ -80,22 +80,18 @@
                                 <i class="fa fa-heart-o fa-2x"></i>
                             {% endif %}
                         </td>
-                        <td><i class="fa fa-envelope-o fa-2x"></i></td>
                         <td><i class="fa fa-comments-o fa-2x"></i></td>
                     </tr>
                     <tr>
-                        <td>20</td>
+                        <td>{{ blog.views }}</td>
                         <td id="like-count">{{ blog.likes.count }}</td>
-                        <td>20</td>
-                        <td>20</td>
+                        <td>{{ blog.comments.count }}</td>
                         {% if user.is_authenticated and blog.author == user%}
                         <td class="p-0 m-0" style="width: 100px;"><a href="{% url 'edit_post' blog.pk %}" class="btn btn-outline-primary btn-lg p-0 m-0" style="width: 100%;" >Edit</a></td>
                         <td class="p-0 m-0" style="width: 100px;"><btn id="delete" data-id="{{ blog.pk }}"  class="btn btn-outline-danger btn-lg p-0 m-0  ms-2" style="width: 100%;">Delete</btn></td>
                         {% endif %} 
                     </tr>
                 </table>
-                
-                
             </div>
         </div>
     </div>

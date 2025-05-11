@@ -36,14 +36,12 @@
             <tr>
               <td><i class="fa fa-eye fa-2x"></i></td>
               <td><i class="fa fa-heart-o fa-2x"></i></td>
-              <td><i class="fa fa-envelope-o fa-2x"></i></td>
               <td><i class="fa fa-comments-o fa-2x"></i></td>
             </tr>
             <tr>
-              <td>20</td>
+              <td>{{ blog.views }}</td>
               <td>{{ blog.likes.count }}</td>
-              <td>20</td>
-              <td>20</td>
+              <td>{{ blog.comments.count }}</td>
             </tr>
           </table>
         </div>

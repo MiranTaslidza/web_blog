@@ -27,7 +27,11 @@ def home(request):
 # prikaz detalja posta
 @login_required
 def blog_detail(request, pk):
-    blog = Blog.objects.get(pk=pk)  
+    blog = Blog.objects.get(pk=pk)
+
+    # Povećaj broj pregleda
+    blog.views += 1
+    blog.save(update_fields=['views'])
         
     # provjera da li je post lajkovan
     is_liked = False
